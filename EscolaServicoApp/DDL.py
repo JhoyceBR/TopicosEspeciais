@@ -3,12 +3,11 @@ import sqlite3
 conn = sqlite3.connect('ifpb.db')
 
 cursor = conn.cursor()
-
 cursor.execute("""
     CREATE TABLE tb_escola(
         id_escola INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
         nome VARCHAR(45) NOT NULL,
-        logadouro VARCHAR(70) NOT NULL,
+        logradouro VARCHAR(70) NOT NULL,
         cidade VARCHAR(45) NOT NULL
     );
 """)
@@ -49,5 +48,7 @@ cursor.execute("""
         nome VARCHAR(45)
     );
 """)
+print("Tabela disciplina criada com sucesso!")
+
 
 conn.close()
