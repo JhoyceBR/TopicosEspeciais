@@ -33,7 +33,7 @@ def getEscola(id):
 
     cursor.execute("""
         SELECT *
-        FROM tb_escola WHERE id = ?;
+        FROM tb_escola WHERE id_escola = ?;
     """, (id, ))
 
     for linha in cursor.fetchall():
@@ -91,7 +91,7 @@ def getAlunos(id):
 
     cursor.execute("""
         SELECT *
-        FROM tb_aluno WHERE id = ?;
+        FROM tb_aluno WHERE id_aluno = ?;
     """, (id, ))
 
     for linha in cursor.fetchall():
@@ -148,7 +148,7 @@ def getCurso(id):
 
     cursor.execute("""
         SELECT *
-        FROM tb_curso WHERE id = ?;
+        FROM tb_curso WHERE id_curso = ?;
     """, (id, ))
 
     for linha in cursor.fetchall():
@@ -204,7 +204,7 @@ def getTurmas(id):
 
     cursor.execute("""
         SELECT *
-        FROM tb_turma WHERE id = ?;
+        FROM tb_turma WHERE id_turma = ?;
     """, (id, ))
 
     for linha in cursor.fetchall():
@@ -261,7 +261,7 @@ def getDisciplinas(id):
 
     cursor.execute("""
         SELECT *
-        FROM tb_disciplina WHERE id = ?;
+        FROM tb_disciplina WHERE id_disciplina = ?;
     """, (id, ))
 
     for linha in cursor.fetchall():
