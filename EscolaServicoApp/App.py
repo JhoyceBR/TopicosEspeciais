@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import request
+from flask import jsonify
 import sqlite3
 
 #acesso em localhost:5000
@@ -33,8 +34,8 @@ def getEscola(id):
 
     cursor.execute("""
         SELECT *
-        FROM tb_escola WHERE id_escola = ?;
-    """, (id, ))
+        FROM tb_escola WHERE id = ?;
+    """, (id_escola, ))
 
     for linha in cursor.fetchall():
         print(linha)
@@ -74,13 +75,21 @@ def getAlunos():
         FROM tb_aluno;
     """)
 
+    #alterações
+    alunos = []
     for linha in cursor.fetchall():
-        print(linha)
+        aluno = {
+            "id_aluno":linha[0],
+            "nome":linha[1],
+            "matricula":linha[2],
+            "cpf":linha[3],
+            "nascimento":linha[4]
+        }
+        alunos.append(aluno)
 
     conn.close()
 
-    return("Executado!", 200)
-
+    return jsonify()
 
 
 @app.route("/alunos/<int:id>", methods=['GET'])
@@ -91,15 +100,19 @@ def getAlunos(id):
 
     cursor.execute("""
         SELECT *
-        FROM tb_aluno WHERE id_aluno = ?;
-    """, (id, ))
+        FROM tb_aluno WHERE id = ?;
+    """, (id_aluno, ))
 
+    alunos = []
     for linha in cursor.fetchall():
-        print(linha)
+        aluno = {
+            "id_aluno":linha[0]
+        }
+        alunos.append(aluno)
 
     conn.close()
 
-    return("Executado!", 200)
+    return jsonify(alunos)
 
 @app.route("/aluno", methods=['POST'])
 def setAlunos():
@@ -148,8 +161,8 @@ def getCurso(id):
 
     cursor.execute("""
         SELECT *
-        FROM tb_curso WHERE id_curso = ?;
-    """, (id, ))
+        FROM tb_curso WHERE id = ?;
+    """, (id_curso, ))
 
     for linha in cursor.fetchall():
         print(linha)
@@ -204,8 +217,8 @@ def getTurmas(id):
 
     cursor.execute("""
         SELECT *
-        FROM tb_turma WHERE id_turma = ?;
-    """, (id, ))
+        FROM tb_turma WHERE id = ?;
+    """, (id_turma, ))
 
     for linha in cursor.fetchall():
         print(linha)
@@ -261,8 +274,8 @@ def getDisciplinas(id):
 
     cursor.execute("""
         SELECT *
-        FROM tb_disciplina WHERE id_disciplina = ?;
-    """, (id, ))
+        FROM tb_disciplina WHERE id = ?;
+    """, (id_disciplina, ))
 
     for linha in cursor.fetchall():
         print(linha)
