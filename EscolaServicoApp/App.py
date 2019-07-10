@@ -17,32 +17,41 @@ def getEscolas():
         SELECT *
         FROM tb_escola;
     """)
-
+    escolas = []
     for linha in cursor.fetchall():
-        print(linha)
+        escola = {
+            "id_escola":linha[0],
+            "nome":linha[1],
+            "logradouro":linha[2],
+            "cidade":linha[3]
+        }
+        escolas.append(escola)
 
     conn.close()
 
-    return("Executado!", 200)
+    return jsonify(escolas)
 
 
 @app.route("/escolas/<int:id>", methods=['GET'])
 def getEscola(id):
     conn = sqlite3.connect('ifpb.db')
-
     cursor = conn.cursor()
 
     cursor.execute("""
         SELECT *
-        FROM tb_escola WHERE id = ?;
-    """, (id_escola, ))
-
-    for linha in cursor.fetchall():
-        print(linha)
+        FROM tb_escola WHERE id_escola = ?;
+    """, (id, ))
+    linha = cursor.fechone()
+    escola = {
+        "id_escola":linha[0],
+        "nome":linha[1],
+        "logradouro":linha[2],
+        "cidade":linha[3]
+    }
 
     conn.close()
 
-    return("Executado!", 200)
+    return(jsonify(escola))
 
 @app.route("/escola", methods=['POST'])
 def setEscola():
@@ -63,11 +72,12 @@ def setEscola():
 
     return ("Cadastro realizado com sucesso!", 200)
 
+# o get só recebe, não envia json. Apenas o post(inserir e atualizar dados) e o put(inserir) podem
+# receber json.
 
 @app.route("/alunos", methods=['GET'])
 def getAlunos():
     conn = sqlite3.connect('ifpb.db')
-
     cursor = conn.cursor()
 
     cursor.execute("""
@@ -89,30 +99,31 @@ def getAlunos():
 
     conn.close()
 
-    return jsonify()
+    return jsonify(alunos)
 
 
 @app.route("/alunos/<int:id>", methods=['GET'])
 def getAlunos(id):
     conn = sqlite3.connect('ifpb.db')
-
     cursor = conn.cursor()
 
     cursor.execute("""
         SELECT *
-        FROM tb_aluno WHERE id = ?;
-    """, (id_aluno, ))
+        FROM tb_aluno WHERE id_aluno = ?;
+    """, (id, ))
 
-    alunos = []
-    for linha in cursor.fetchall():
-        aluno = {
-            "id_aluno":linha[0]
-        }
-        alunos.append(aluno)
+    linha = cursor.fetchone()
+    aluno = {
+        "id_aluno":linha[0],
+        "nome":linha[1],
+        "matricula":linha[2],
+        "cpf":linha[3],
+        "nascimento":linha[4]
+    }
 
     conn.close()
 
-    return jsonify(alunos)
+    return jsonify(aluno)
 
 @app.route("/aluno", methods=['POST'])
 def setAlunos():
@@ -144,13 +155,18 @@ def getCurso():
         SELECT *
         FROM tb_curso;
     """)
-
+    cursos = []
     for linha in cursor.fetchall():
-        print(linha)
+        curso = {
+            "id_curso":linha[0],
+            "nome":linha[1],
+            "turno":linha[2]
+        }
+        cursos.append(curso)
 
     conn.close()
 
-    return("Executado!", 200)
+    return jsonify(cursos)
 
 
 @app.route("/cursos/<int:id>", methods=['GET'])
@@ -164,12 +180,15 @@ def getCurso(id):
         FROM tb_curso WHERE id = ?;
     """, (id_curso, ))
 
-    for linha in cursor.fetchall():
-        print(linha)
-
+    linha = cursor.fetchone()
+    curso = {
+        "id_curso":linha[0],
+        "nome":linha[1],
+        "turno":linha[2]
+    }
     conn.close()
 
-    return("Executado!", 200)
+    return jsonify(curso)
 
 @app.route("/curso", methods=['POST'])
 def setCurso():
@@ -199,13 +218,17 @@ def getTurmas():
         SELECT *
         FROM tb_turma;
     """)
-
+    turmas = []
     for linha in cursor.fetchall():
-        print(linha)
-
+        turma = {
+            "id_turma":linha[0],
+            "nome":linha[1],
+            "curso":linha[2]
+        }
+        turmas.append(turma)
     conn.close()
 
-    return("Executado!", 200)
+    return jsonify(turmas)
 
 
 
@@ -220,12 +243,16 @@ def getTurmas(id):
         FROM tb_turma WHERE id = ?;
     """, (id_turma, ))
 
-    for linha in cursor.fetchall():
-        print(linha)
+    linha = cursor.fetchone()
+    turma = {
+        "id_turma":linha[0],
+        "nome":linha[1],
+        "curso":linha[2]
+    }
 
     conn.close()
 
-    return("Executado!", 200)
+    return jsonify(turma)
 
 @app.route("/turma", methods=['POST'])
 def setTurmas():
