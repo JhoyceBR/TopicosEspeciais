@@ -283,13 +283,16 @@ def getDisciplinas():
         SELECT *
         FROM tb_disciplina;
     """)
-
+    disciplinas = []
     for linha in cursor.fetchall():
-        print(linha)
-
+        disciplina = {
+            "id_disciplina":linha[0],
+            "nome":linha[1]
+        }
+        disciplinas.append(disciplina)
     conn.close()
 
-    return("Executado!", 200)
+    return jsonify(disciplinas)
 
 
 
@@ -304,12 +307,15 @@ def getDisciplinas(id):
         FROM tb_disciplina WHERE id = ?;
     """, (id_disciplina, ))
 
-    for linha in cursor.fetchall():
-        print(linha)
+    linha = cursor.fechone()
+    disciplina = {
+        "id_disciplina":linha[0],
+        "nome":linha[1]
+    }
 
     conn.close()
 
-    return("Executado!", 200)
+    return jsonify(disciplina)
 
 @app.route("/disciplina", methods=['POST'])
 def setDisciplinas():
