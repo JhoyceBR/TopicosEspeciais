@@ -55,22 +55,22 @@ def getEscola(id):
 
 @app.route("/escola", methods=['POST'])
 def setEscola():
-    print ("Cadastrando escola!")
-    nome = request.form['nome']
-    logradouro = request.form['logradouro']
-    cidade = request.form['cidade']
+    escola = request.get_json()
+    nome = escola['nome'] # valor indicado no dicionário
+    logradouro = escola['logradouro']
+    cidade = escola['cidade']
 
     conn = sqlite3.connect("ifpb.db")
     cursor = conn.cursor()
     cursor.execute("""
         INSERT INTO tb_escola(nome, logradouro, cidade)
         VALUES(?, ?, ?);
-
     """, (nome, logradouro, cidade))
     conn.commit()
     conn.close()
 
-    return ("Cadastro realizado com sucesso!", 200)
+    id = cursor.lastrowid
+    escola["id_escola"] = id
 
 # o get só recebe, não envia json. Apenas o post(inserir e atualizar dados) e o put(inserir) podem
 # receber json.
