@@ -10,13 +10,13 @@ app = Flask(__name__)
 @app.route("/escolas", methods=['GET'])
 def getEscolas():
     conn = sqlite3.connect('ifpb.db')
-
     cursor = conn.cursor()
 
     cursor.execute("""
         SELECT *
         FROM tb_escola;
     """)
+
     escolas = []
     for linha in cursor.fetchall():
         escola = {
@@ -70,7 +70,9 @@ def setEscola():
     conn.close()
 
     id = cursor.lastrowid
-    escola["id_escola"] = id
+    escola['id_escola'] = id
+
+    return jsonify(escola)
 
 # o get só recebe, não envia json. Apenas o post(inserir e atualizar dados) e o put(inserir) podem
 # receber json.
@@ -127,23 +129,25 @@ def getAlunos(id):
 
 @app.route("/aluno", methods=['POST'])
 def setAlunos():
-    print ("Cadastrando discente!")
-    nome = request.form['nome']
-    matricula = request.form['matricula']
-    cpf = request.form['cpf']
-    nascimento = request.form['nascimento']
+    aluno = request.get_json() # recupera json completo - dicionario
+    nome = aluno['nome']
+    matricula = aluno['matricula']
+    cpf = aluno['cpf']
+    nascimento = aluno['nascimento']
 
     conn = sqlite3.connect("ifpb.db")
     cursor = conn.cursor()
     cursor.execute("""
         INSERT INTO tb_aluno(nome, matricula, cpf, nascimento)
         VALUES(?, ?, ?, ?);
-
     """, (nome, matricula, cpf, nascimento))
     conn.commit()
     conn.close()
 
-    return ("Cadastro realizado com sucesso!", 200)
+    id = cursor.lastrowid
+    aluno['id_aluno'] = id
+
+    return (jsonify(aluno))
 
 @app.route("/cursos", methods=['GET'])
 def getCurso():
@@ -172,13 +176,12 @@ def getCurso():
 @app.route("/cursos/<int:id>", methods=['GET'])
 def getCurso(id):
     conn = sqlite3.connect('ifpb.db')
-
     cursor = conn.cursor()
 
     cursor.execute("""
         SELECT *
-        FROM tb_curso WHERE id = ?;
-    """, (id_curso, ))
+        FROM tb_curso WHERE id_curso = ?;
+    """, (id, ))
 
     linha = cursor.fetchone()
     curso = {
@@ -265,7 +268,6 @@ def setTurmas():
     cursor.execute("""
         INSERT INTO tb_turma(nome, curso)
         VALUES(?, ?);
-
     """, (nome, curso))
     conn.commit()
     conn.close()
@@ -327,7 +329,6 @@ def setDisciplinas():
     cursor.execute("""
         INSERT INTO tb_disciplina(nome)
         VALUES(?);
-
     """, (nome))
     conn.commit()
     conn.close()
