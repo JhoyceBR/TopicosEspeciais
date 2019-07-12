@@ -105,7 +105,7 @@ def getAlunos():
 
 
 @app.route("/alunos/<int:id>", methods=['GET'])
-def getAlunos(id):
+def getAluno(id):
     conn = sqlite3.connect('ifpb.db')
     cursor = conn.cursor()
 
@@ -150,7 +150,7 @@ def setAlunos():
     return (jsonify(aluno))
 
 @app.route("/cursos", methods=['GET'])
-def getCurso():
+def getCursos():
     conn = sqlite3.connect('ifpb.db')
 
     cursor = conn.cursor()
@@ -195,9 +195,10 @@ def getCurso(id):
 
 @app.route("/curso", methods=['POST'])
 def setCurso():
-    print ("Cadastrando curso!")
-    nome = request.form['nome']
-    turno = request.form['turno']
+
+    curso = request.get_json()
+    nome = curso['nome']
+    turno = curso['turno']
 
     conn = sqlite3.connect("ifpb.db")
     cursor = conn.cursor()
@@ -209,7 +210,10 @@ def setCurso():
     conn.commit()
     conn.close()
 
-    return ("Cadastro realizado com sucesso!", 200)
+    id = cursor.lastrowid
+    curso["id_curso"] = id
+
+    return(jsonify(curso))
 
 @app.route("/turmas", methods=['GET'])
 def getTurmas():
@@ -236,7 +240,7 @@ def getTurmas():
 
 
 @app.route("/turmas/<int:id>", methods=['GET'])
-def getTurmas(id):
+def getTurma(id):
     conn = sqlite3.connect('ifpb.db')
 
     cursor = conn.cursor()
@@ -259,9 +263,10 @@ def getTurmas(id):
 
 @app.route("/turma", methods=['POST'])
 def setTurmas():
-    print ("Cadastrando turma!")
-    nome = request.form['nome']
-    turno = request.form['curso']
+
+    turma = request.get_json()
+    nome = turma['nome']
+    turno = turma['curso']
 
     conn = sqlite3.connect("ifpb.db")
     cursor = conn.cursor()
@@ -272,7 +277,10 @@ def setTurmas():
     conn.commit()
     conn.close()
 
-    return ("Cadastro realizado com sucesso!", 200)
+    id = cursor.lastrowid
+    turma["id_turma"] = id
+
+    return (jsonify(turma))
 
 
 @app.route("/disciplinas", methods=["GET"])
@@ -299,7 +307,7 @@ def getDisciplinas():
 
 
 @app.route("/disciplinas/<int:id>", methods=['GET'])
-def getDisciplinas(id):
+def getDisciplina(id):
     conn = sqlite3.connect('ifpb.db')
 
     cursor = conn.cursor()
@@ -321,8 +329,8 @@ def getDisciplinas(id):
 
 @app.route("/disciplina", methods=['POST'])
 def setDisciplinas():
-    print ("Cadastrando disciplina!")
-    nome = request.form['nome']
+    disciplina = request.get_json()
+    nome = disciplina['nome']
 
     conn = sqlite3.connect("ifpb.db")
     cursor = conn.cursor()
@@ -333,7 +341,10 @@ def setDisciplinas():
     conn.commit()
     conn.close()
 
-    return ("Cadastro realizado com sucesso!", 200)
+    id = cursor.lastrowid
+    disciplina["id_disciplina"] = id
+    
+    return (jsonify(disciplina))
 
 
 if __name__ == '__main__':
