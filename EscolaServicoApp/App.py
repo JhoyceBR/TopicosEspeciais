@@ -1,14 +1,24 @@
 from flask import Flask
 from flask import request
 from flask import jsonify
-import sqlite3
+import logging # nativo
+import sqlite3 # nativo
 
-#acesso em localhost:5000
-
+# inicia a aplicação
 app = Flask(__name__)
+
+# loggin
+formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+handler = logging.FileHandler("escolaapp.log")
+handler.setFormatter(formatter)
+
+logger = app.logger
+logger.addHandler(handler)
+logger.setLevel(logging.INFO)
 
 @app.route("/escolas", methods=['GET'])
 def getEscolas():
+    logger.info("Listanto alunos.")
     conn = sqlite3.connect('ifpb.db')
     cursor = conn.cursor()
 
@@ -343,7 +353,6 @@ def setDisciplinas():
 
     id = cursor.lastrowid
     disciplina["id_disciplina"] = id
-    
     return (jsonify(disciplina))
 
 
