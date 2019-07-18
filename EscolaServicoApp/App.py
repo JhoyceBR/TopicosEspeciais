@@ -18,7 +18,7 @@ logger.setLevel(logging.INFO)
 
 @app.route("/escolas", methods=['GET'])
 def getEscolas():
-    logger.info("Listanto alunos.")
+    logger.info("Listanto escolas.")
     conn = sqlite3.connect('ifpb.db')
     cursor = conn.cursor()
 
@@ -84,8 +84,6 @@ def setEscola():
 
     return jsonify(escola)
 
-# o get só recebe, não envia json. Apenas o post(inserir e atualizar dados) e o put(inserir) podem
-# receber json.
 
 @app.route("/alunos", methods=['GET'])
 def getAlunos():
