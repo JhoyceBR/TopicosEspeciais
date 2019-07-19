@@ -44,6 +44,7 @@ def getEscolas():
 
 @app.route("/escolas/<int:id>", methods=['GET'])
 def getEscola(id):
+    logger.info("Listanto escola pelo id.")
     conn = sqlite3.connect('ifpb.db')
     cursor = conn.cursor()
 
@@ -65,6 +66,7 @@ def getEscola(id):
 
 @app.route("/escola", methods=['POST'])
 def setEscola():
+    logger.info("Cadastrando escola.")
     escola = request.get_json()
     nome = escola['nome'] # valor indicado no dicionário
     logradouro = escola['logradouro']
@@ -87,6 +89,7 @@ def setEscola():
 
 @app.route("/alunos", methods=['GET'])
 def getAlunos():
+    logger.info("Listanto alunos.")
     conn = sqlite3.connect('ifpb.db')
     cursor = conn.cursor()
 
@@ -114,6 +117,7 @@ def getAlunos():
 
 @app.route("/alunos/<int:id>", methods=['GET'])
 def getAluno(id):
+    logger.info("Listanto aluno pelo id.")
     conn = sqlite3.connect('ifpb.db')
     cursor = conn.cursor()
 
@@ -137,6 +141,7 @@ def getAluno(id):
 
 @app.route("/aluno", methods=['POST'])
 def setAlunos():
+    logger.info("Cadastrando aluno.")
     aluno = request.get_json() # recupera json completo - dicionario
     nome = aluno['nome']
     matricula = aluno['matricula']
@@ -159,8 +164,8 @@ def setAlunos():
 
 @app.route("/cursos", methods=['GET'])
 def getCursos():
+    logger.info("Listanto cursos.")
     conn = sqlite3.connect('ifpb.db')
-
     cursor = conn.cursor()
 
     cursor.execute("""
@@ -183,6 +188,7 @@ def getCursos():
 
 @app.route("/cursos/<int:id>", methods=['GET'])
 def getCurso(id):
+    logger.info("Listanto curso pelo id.")
     conn = sqlite3.connect('ifpb.db')
     cursor = conn.cursor()
 
@@ -203,7 +209,7 @@ def getCurso(id):
 
 @app.route("/curso", methods=['POST'])
 def setCurso():
-
+    logger.info("Cadastrando curso.")
     curso = request.get_json()
     nome = curso['nome']
     turno = curso['turno']
@@ -225,6 +231,7 @@ def setCurso():
 
 @app.route("/turmas", methods=['GET'])
 def getTurmas():
+    logger.info("Listanto turmas.")
     conn = sqlite3.connect('ifpb.db')
 
     cursor = conn.cursor()
@@ -249,6 +256,7 @@ def getTurmas():
 
 @app.route("/turmas/<int:id>", methods=['GET'])
 def getTurma(id):
+    logger.info("Listanto turma pelo id.")
     conn = sqlite3.connect('ifpb.db')
 
     cursor = conn.cursor()
@@ -271,7 +279,7 @@ def getTurma(id):
 
 @app.route("/turma", methods=['POST'])
 def setTurmas():
-
+    logger.info("Cadastrando turma.")
     turma = request.get_json()
     nome = turma['nome']
     turno = turma['curso']
@@ -293,6 +301,7 @@ def setTurmas():
 
 @app.route("/disciplinas", methods=["GET"])
 def getDisciplinas():
+    logger.info("Listanto disciplinas.")
     conn = sqlite3.connect('ifpb.db')
 
     cursor = conn.cursor()
@@ -316,6 +325,7 @@ def getDisciplinas():
 
 @app.route("/disciplinas/<int:id>", methods=['GET'])
 def getDisciplina(id):
+    logger.info("Listanto disciplinas pelo id.")
     conn = sqlite3.connect('ifpb.db')
 
     cursor = conn.cursor()
@@ -337,6 +347,7 @@ def getDisciplina(id):
 
 @app.route("/disciplina", methods=['POST'])
 def setDisciplinas():
+    logger.info("Cadastrando disciplina.")
     disciplina = request.get_json()
     nome = disciplina['nome']
 
