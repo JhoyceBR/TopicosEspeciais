@@ -19,70 +19,80 @@ logger.setLevel(logging.INFO)
 @app.route("/escolas", methods=['GET'])
 def getEscolas():
     logger.info("Listanto escolas.")
-    conn = sqlite3.connect('ifpb.db')
-    cursor = conn.cursor()
+    try:
+        conn = sqlite3.connect('ifpb.db')
+        cursor = conn.cursor()
 
-    cursor.execute("""
-        SELECT *
-        FROM tb_escola;
-    """)
+        cursor.execute("""
+            SELECT *
+            FROM tb_escola;
+        """)
 
-    escolas = []
-    for linha in cursor.fetchall():
+        escolas = []
+        for linha in cursor.fetchall():
+            escola = {
+                "id_escola":linha[0],
+                "nome":linha[1],
+                "logradouro":linha[2],
+                "cidade":linha[3]
+            }
+            escolas.append(escola)
+
+        conn.close()
+    except sqlite3.Error:
+        return("Ocorreu um erro.")
+
+    return jsonify(escolas)
+
+#####ver aqui
+@app.route("/escolas/<int:id>", methods=['GET'])
+def getEscola(id):
+    logger.info("Listanto escola pelo id.")
+    try:
+        conn = sqlite3.connect('ifpb.db')
+        cursor = conn.cursor()
+
+        cursor.execute("""
+            SELECT *
+            FROM tb_escola WHERE id_escola = ?;
+        """, (id, ))
+        linha = cursor.fechone()
         escola = {
             "id_escola":linha[0],
             "nome":linha[1],
             "logradouro":linha[2],
             "cidade":linha[3]
         }
-        escolas.append(escola)
 
-    conn.close()
-
-    return jsonify(escolas)
-
-
-@app.route("/escolas/<int:id>", methods=['GET'])
-def getEscola(id):
-    logger.info("Listanto escola pelo id.")
-    conn = sqlite3.connect('ifpb.db')
-    cursor = conn.cursor()
-
-    cursor.execute("""
-        SELECT *
-        FROM tb_escola WHERE id_escola = ?;
-    """, (id, ))
-    linha = cursor.fechone()
-    escola = {
-        "id_escola":linha[0],
-        "nome":linha[1],
-        "logradouro":linha[2],
-        "cidade":linha[3]
-    }
-
-    conn.close()
+        conn.close()
+    except sqlite3.Error:
+        return("Ocorreu um erro.")
 
     return(jsonify(escola))
+
 
 @app.route("/escola", methods=['POST'])
 def setEscola():
     logger.info("Cadastrando escola.")
-    escola = request.get_json()
-    nome = escola['nome'] # valor indicado no dicionário
-    logradouro = escola['logradouro']
-    cidade = escola['cidade']
+    try:
+        escola = request.get_json()
+        nome = escola['nome'] # valor indicado no dicionário
+        logradouro = escola['logradouro']
+        cidade = escola['cidade']
 
-    conn = sqlite3.connect("ifpb.db")
-    cursor = conn.cursor()
-    cursor.execute("""
-        INSERT INTO tb_escola(nome, logradouro, cidade)
-        VALUES(?, ?, ?);
-    """, (nome, logradouro, cidade))
-    conn.commit()
-    conn.close()
+        conn = sqlite3.connect("ifpb.db")
+        cursor = conn.cursor()
+        cursor.execute("""
+            INSERT INTO tb_escola(nome, logradouro, cidade)
+            VALUES(?, ?, ?);
+        """, (nome, logradouro, cidade))
+        conn.commit()
+        conn.close()
 
-    id = cursor.lastrowid
-    escola['id_escola'] = id
+        id = cursor.lastrowid
+        escola['id_escola'] = id
+    except sqlite3.Error:
+        return("Ocorreu um erro.")
 
     return jsonify(escola)
 
@@ -90,28 +100,30 @@ def setEscola():
 @app.route("/alunos", methods=['GET'])
 def getAlunos():
     logger.info("Listanto alunos.")
-    conn = sqlite3.connect('ifpb.db')
-    cursor = conn.cursor()
+    try:
+        conn = sqlite3.connect('ifpb.db')
+        cursor = conn.cursor()
 
-    cursor.execute("""
-        SELECT *
-        FROM tb_aluno;
-    """)
+        cursor.execute("""
+            SELECT *
+            FROM tb_aluno;
+        """)
 
-    #alterações
-    alunos = []
-    for linha in cursor.fetchall():
-        aluno = {
-            "id_aluno":linha[0],
-            "nome":linha[1],
-            "matricula":linha[2],
-            "cpf":linha[3],
-            "nascimento":linha[4]
-        }
-        alunos.append(aluno)
+        #alterações
+        alunos = []
+        for linha in cursor.fetchall():
+            aluno = {
+                "id_aluno":linha[0],
+                "nome":linha[1],
+                "matricula":linha[2],
+                "cpf":linha[3],
+                "nascimento":linha[4]
+            }
+            alunos.append(aluno)
 
-    conn.close()
-
+        conn.close()
+    except sqlite3.Error:
+        return("Ocorreu um erro.")
     return jsonify(alunos)
 
 
@@ -210,22 +222,25 @@ def getCurso(id):
 @app.route("/curso", methods=['POST'])
 def setCurso():
     logger.info("Cadastrando curso.")
-    curso = request.get_json()
-    nome = curso['nome']
-    turno = curso['turno']
+    try:
+        curso = request.get_json()
+        nome = curso['nome']
+        turno = curso['turno']
 
-    conn = sqlite3.connect("ifpb.db")
-    cursor = conn.cursor()
-    cursor.execute("""
-        INSERT INTO tb_curso(nome, turno)
-        VALUES(?, ?);
-    """, (nome, turno))
+        conn = sqlite3.connect("ifpb.db")
+        cursor = conn.cursor()
+        cursor.execute("""
+            INSERT INTO tb_curso(nome, turno)
+            VALUES(?, ?);
+        """, (nome, turno))
 
-    conn.commit()
-    conn.close()
+        conn.commit()
+        conn.close()
 
-    id = cursor.lastrowid
-    curso["id_curso"] = id
+        id = cursor.lastrowid
+        curso["id_curso"] = id
+    except sqlite3.Error:
+        return("Ocorreu um erro.")
 
     return(jsonify(curso))
 
@@ -258,13 +273,12 @@ def getTurmas():
 def getTurma(id):
     logger.info("Listanto turma pelo id.")
     conn = sqlite3.connect('ifpb.db')
-
     cursor = conn.cursor()
 
     cursor.execute("""
         SELECT *
-        FROM tb_turma WHERE id = ?;
-    """, (id_turma, ))
+        FROM tb_turma WHERE id_turma = ?;
+    """, (id, ))
 
     linha = cursor.fetchone()
     turma = {
@@ -282,7 +296,7 @@ def setTurmas():
     logger.info("Cadastrando turma.")
     turma = request.get_json()
     nome = turma['nome']
-    turno = turma['curso']
+    curso = turma['curso']
 
     conn = sqlite3.connect("ifpb.db")
     cursor = conn.cursor()
@@ -326,42 +340,49 @@ def getDisciplinas():
 @app.route("/disciplinas/<int:id>", methods=['GET'])
 def getDisciplina(id):
     logger.info("Listanto disciplinas pelo id.")
-    conn = sqlite3.connect('ifpb.db')
+    try:
+        conn = sqlite3.connect('ifpb.db')
 
-    cursor = conn.cursor()
+        cursor = conn.cursor()
 
-    cursor.execute("""
-        SELECT *
-        FROM tb_disciplina WHERE id = ?;
-    """, (id_disciplina, ))
+        cursor.execute("""
+            SELECT *
+            FROM tb_disciplina WHERE id_disciplina = ?;
+        """, (id, ))
 
-    linha = cursor.fechone()
-    disciplina = {
-        "id_disciplina":linha[0],
-        "nome":linha[1]
-    }
+        linha = cursor.fechone()
+        disciplina = {
+            "id_disciplina":linha[0],
+            "nome":linha[1]
+        }
 
-    conn.close()
+        conn.close()
+    except sqlite3.Error:
+        return("Ocorreu um erro.")
 
     return jsonify(disciplina)
 
+####ver aqui
 @app.route("/disciplina", methods=['POST'])
 def setDisciplinas():
     logger.info("Cadastrando disciplina.")
-    disciplina = request.get_json()
-    nome = disciplina['nome']
+    try:
+        disciplina = request.get_json()
+        nome = disciplina['nome']
 
-    conn = sqlite3.connect("ifpb.db")
-    cursor = conn.cursor()
-    cursor.execute("""
-        INSERT INTO tb_disciplina(nome)
-        VALUES(?);
-    """, (nome))
-    conn.commit()
-    conn.close()
+        conn = sqlite3.connect("ifpb.db")
+        cursor = conn.cursor()
+        cursor.execute("""
+            INSERT INTO tb_disciplina(nome)
+            VALUES(?);
+        """, (nome))
+        conn.commit()
+        conn.close()
 
-    id = cursor.lastrowid
-    disciplina["id_disciplina"] = id
+        id = cursor.lastrowid
+        disciplina["id_disciplina"] = id
+    except sqlite3.Error:
+        return("Ocorreu um erro.")
     return (jsonify(disciplina))
 
 
