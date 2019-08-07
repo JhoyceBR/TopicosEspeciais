@@ -95,8 +95,8 @@ def setEscola():
     try:
         escola = request.get_json()
         nome = escola['nome'] # valor indicado no dicionário
-        logradouro = escola['logradouro']
-        cidade = escola['cidade']
+        # logradouro = escola['logradouro']
+        # cidade = escola['cidade']
 
         conn = sqlite3.connect("ifpb.db")
         cursor = conn.cursor()
@@ -170,7 +170,7 @@ def getAluno(id):
     return jsonify(aluno)
 
 @app.route("/aluno", methods=['POST'])
-# @schema.validate(aluno_schema)
+@schema.validate(aluno_schema)
 def setAlunos():
     logger.info("Cadastrando aluno.")
     aluno = request.get_json() # recupera json completo - dicionario
