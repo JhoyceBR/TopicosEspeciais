@@ -1,0 +1,50 @@
+2019-08-09 09:33:42,358 - INFO - Listanto alunos.
+2019-08-09 09:33:42,359 - INFO - []
+2019-08-09 09:33:47,660 - INFO - Listanto aluno pelo id: 1.
+2019-08-09 09:42:53,317 - INFO - Cadastrando endereco.
+2019-08-09 09:46:47,609 - INFO - Cadastrando endereco.
+2019-08-09 09:48:16,311 - INFO - Cadastrando endereco.
+2019-08-09 09:51:46,661 - INFO - Cadastrando endereco.
+2019-08-09 09:52:20,007 - INFO - Cadastrando endereco.
+2019-08-09 09:56:48,038 - INFO - Cadastrando endereco.
+2019-08-09 10:00:00,315 - INFO - Cadastrando endereco.
+2019-08-09 10:00:46,921 - INFO - Listando endereços por id: 1
+2019-08-09 10:38:59,713 - INFO - Listando turno.
+2019-08-09 10:38:59,714 - INFO - []
+2019-08-09 10:40:03,506 - INFO - Listando turno.
+2019-08-09 10:40:03,507 - INFO - []
+2019-08-09 10:41:42,419 - INFO - Listando turno.
+2019-08-09 10:41:42,420 - INFO - [{'id_turno': 1, 'nome': 'manha'}]
+2019-08-09 10:41:46,634 - INFO - Listando turnos por id: 1
+2019-08-09 10:45:14,208 - INFO - Cadastrando aluno.
+2019-08-09 10:45:26,714 - INFO - Cadastrando aluno.
+2019-08-09 10:45:37,116 - INFO - Listanto alunos.
+2019-08-09 10:45:37,117 - INFO - [{'id_aluno': 1, 'nome': 'jose', 'matricula': '201613710045', 'cpf': '78895523644', 'nascimento': '2014-05-05', 'fk_id_endereco': 1, 'fk_id_curso': 1}]
+2019-08-09 10:45:40,567 - INFO - Listanto aluno pelo id: 1.
+2019-08-09 10:47:47,728 - INFO - Listanto cursos.
+2019-08-09 10:48:49,485 - INFO - Cadastrando curso.
+2019-08-09 10:50:54,063 - INFO - Cadastrando curso.
+2019-08-09 10:51:21,270 - INFO - Cadastrando curso.
+2019-08-09 10:56:06,252 - INFO - Cadastrando curso.
+2019-08-09 10:56:32,764 - INFO - Cadastrando curso.
+2019-08-09 10:56:39,894 - INFO - Listanto cursos.
+2019-08-09 10:56:43,500 - INFO - Listanto curso pelo id: 1
+2019-08-09 10:57:21,677 - INFO - Listando turno.
+2019-08-09 10:57:21,678 - INFO - [{'id_turno': 1, 'nome': 'manha'}]
+2019-08-09 10:57:26,229 - INFO - Listando turnos por id: 1
+2019-08-09 11:23:25,334 - INFO - Listanto escolas.
+2019-08-09 11:23:25,335 - INFO - []
+2019-08-09 11:23:56,461 - INFO - Listando campi.
+2019-08-09 11:23:56,462 - INFO - []
+2019-08-09 11:25:17,428 - INFO - Listando campi.
+2019-08-09 11:25:17,429 - INFO - [{'id_campus': 1, 'sigla': 'ifpb', 'cidade': 'gba'}]
+2019-08-09 11:25:20,820 - INFO - Listanto campus pelo id: 1
+2019-08-09 11:26:52,000 - INFO - Cadastrando escola.
+2019-08-09 11:29:13,539 - INFO - Cadastrando escola.
+2019-08-09 11:29:27,897 - INFO - Cadastrando escola.
+2019-08-09 11:36:21,255 - INFO - Listanto turmas.
+2019-08-09 11:45:46,523 - INFO - Listanto turmas.
+2019-08-09 11:45:50,182 - INFO - Listanto turma pelo id.
+2019-08-09 11:49:43,657 - INFO - Listanto disciplinas.
+2019-08-09 11:53:10,698 - INFO - Listanto disciplinas.
+2019-08-09 11:53:14,510 - INFO - Listanto disciplinas pelo id.
