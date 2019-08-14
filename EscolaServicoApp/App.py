@@ -211,7 +211,7 @@ def updateAluno(id):
     id_endereco = aluno['fk_id_endereco']
     id_curso = aluno['fk_id_curso']
 
-    # Buscar o aluno pelo "id".
+
     conn = sqlite3.connect(Nome_DB)
     cursor = conn.cursor()
 
@@ -223,7 +223,7 @@ def updateAluno(id):
     data = cursor.fetchone()
 
     if data is not None:
-        # Atualizar os dados caso o aluno seja encontrado através do "id".
+
         cursor.execute("""
             UPDATE tb_aluno
             SET nome=?, matricula=?, cpf=?, nascimento=?, fk_id_endereco=?, fk_id_curso=?
@@ -244,7 +244,7 @@ def updateAluno(id):
 
     conn.close()
 
-    #Retornar o JSON do aluno atualizado.
+
     return jsonify(aluno)
 
 
@@ -343,8 +343,6 @@ def updateEndereco(id):
     cep = endereco['cep']
     numero = endereco['numero']
 
-
-    # Buscar o aluno pelo "id".
     conn = sqlite3.connect(Nome_DB)
     cursor = conn.cursor()
 
@@ -356,7 +354,7 @@ def updateEndereco(id):
     data = cursor.fetchone()
 
     if data is not None:
-        # Atualizar os dados caso o aluno seja encontrado através do "id".
+
         cursor.execute("""
             UPDATE tb_endereco
             SET logradouro=?, complemento=?, bairro=?, cep=?, numero=?
@@ -377,7 +375,7 @@ def updateEndereco(id):
 
     conn.close()
 
-    #Retornar o JSON do aluno atualizado.
+
     return jsonify(endereco)
 
 
@@ -469,7 +467,6 @@ def updateCurso(id):
     turno = curso['turno']
     id_turno = curso['fk_id_turno']
 
-    # Buscar o aluno pelo "id".
     conn = sqlite3.connect(Nome_DB)
     cursor = conn.cursor()
 
@@ -481,7 +478,7 @@ def updateCurso(id):
     data = cursor.fetchone()
 
     if data is not None:
-        # Atualizar os dados caso o aluno seja encontrado através do "id".
+
         cursor.execute("""
             UPDATE tb_curso
             SET nome=?, turno=?, fk_id_turno=?
@@ -502,7 +499,7 @@ def updateCurso(id):
 
     conn.close()
 
-    #Retornar o JSON do aluno atualizado.
+
     return jsonify(curso)
 
 
@@ -742,7 +739,6 @@ def updateEscola(id):
 
     conn.close()
 
-    #Retornar o JSON do aluno atualizado.
     return jsonify(escola)
 
 
@@ -773,7 +769,6 @@ def getCampi(): # testado ok
         logger.error("Ocorreu um erro.")
     return jsonify(campi)
 
-#####continuar updates
 
 @app.route("/campi/<int:id>", methods=['GET'])
 def getCampus(id): # testado ok
@@ -819,6 +814,49 @@ def setCampus(): # testado ok
         campus["id_campus"] = id
     except(sqlite3.Error):
         logger.error("Ocorreu um erro.")
+    return jsonify(campus)
+
+@app.route("/campus/<int:id>", methods=['PUT'])
+def updateCampus(id):
+    # Receber o JSON.
+    campus = request.get_json()
+    sigla = campus['sigla']
+    cidade = campus['cidade']
+
+    
+    conn = sqlite3.connect(Nome_DB)
+    cursor = conn.cursor()
+
+    # Executar a consulta de pesquisa.​​
+    cursor.execute("""
+        SELECT * FROM tb_campus WHERE id_campus = ?;
+    """, (id, ))
+
+    data = cursor.fetchone()
+
+    if data is not None:
+        
+        cursor.execute("""
+            UPDATE tb_campus
+            SET sigla=?, cidade=?
+            WHERE id_campus = ?;
+        """, (sigla, cidade, id))
+        conn.commit()
+    else:
+        print("Inserindo")
+        # Inserir novo registro.
+        cursor.execute("""
+            INSERT INTO tb_campus(sigla, cidade)
+            VALUES(?);
+        """, (sigla, cidade))
+        conn.commit()
+        # Identificador do último registro inserido.
+        id = cursor.lastrowid
+        campus["id_campus"] = id
+
+    conn.close()
+
+    
     return jsonify(campus)
 
 
@@ -896,6 +934,46 @@ def setTurma(): # testado ok
         logger.error("Ocorreu um erro.")
     return jsonify(turma)
 
+@app.route("/turma/<int:id>", methods=['PUT'])
+def updateTurma(id):
+    # Receber o JSON.
+    turma = request.get_json()
+    nome = turma['nome']
+    id_curso = turma['fk_id_curso']
+
+    conn = sqlite3.connect(Nome_DB)
+    cursor = conn.cursor()
+
+    # Executar a consulta de pesquisa.​​
+    cursor.execute("""
+        SELECT * FROM tb_turma WHERE id_turma = ?;
+    """, (id, ))
+
+    data = cursor.fetchone()
+
+    if data is not None:
+
+        cursor.execute("""
+            UPDATE tb_turma
+            SET nome=?, fk_id_curso=?
+            WHERE id_turma = ?;
+        """, (nome, id_curso id))
+        conn.commit()
+    else:
+        print("Inserindo")
+        # Inserir novo registro.
+        cursor.execute("""
+            INSERT INTO tb_turma(nome, fk_id_curso)
+            VALUES(?, ?);
+        """, (nome, id_curso))
+        conn.commit()
+        # Identificador do último registro inserido.
+        id = cursor.lastrowid
+        turma["id_turma"] = id
+
+    conn.close()
+    
+    return jsonify(turma)
 
 @app.route("/disciplinas", methods=["GET"])
 def getDisciplinas(): # testado ok
@@ -971,6 +1049,50 @@ def setDisciplina():
         logger.error("Ocorreu um erro.")
     return jsonify(disciplina)
 
+@app.route("/disciplina/<int:id>", methods=['PUT'])
+def updateDisciplina(id):
+    # Receber o JSON.
+    disciplina = request.get_json()
+    nome = disciplina['nome']
+    id_professor = disciplina['fk_id_professor']
+
+   
+    conn = sqlite3.connect(Nome_DB)
+    cursor = conn.cursor()
+
+    # Executar a consulta de pesquisa.​​
+    cursor.execute("""
+        SELECT * FROM tb_disciplina WHERE id_disciplina = ?;
+    """, (id, ))
+
+    data = cursor.fetchone()
+
+    if data is not None:
+        
+        cursor.execute("""
+            UPDATE tb_disciplina
+            SET nome=?, fk_id_professor
+            WHERE id_disciplina = ?;
+        """, (nome, id_professor, id))
+        conn.commit()
+    else:
+        print("Inserindo")
+        # Inserir novo registro.
+        cursor.execute("""
+            INSERT INTO tb_disciplina(nome, fk_id_professor)
+            VALUES(?, ?);
+        """, (nome))
+        conn.commit()
+        # Identificador do último registro inserido.
+        id = cursor.lastrowid
+        disciplina["id_disciplina"] = id
+
+    conn.close()
+
+    
+    return jsonify(disciplina)
+
+
 @app.route("/professores", methods=['GET'])
 def getProfessores(): # testado ok
     logger.info("Listanto professores.")
@@ -1045,6 +1167,46 @@ def setProfessor(): # testado ok
 
     return (jsonify(professor))
 
+@app.route("/professor/<int:id>", methods=['PUT'])
+def updateProfessor(id):
+    # Receber o JSON.
+    professor = request.get_json()
+    nome = professor['nome']
+    id_endereco = professor['fk_id_professor']
+
+    conn = sqlite3.connect(Nome_DB)
+    cursor = conn.cursor()
+
+    # Executar a consulta de pesquisa.​​
+    cursor.execute("""
+        SELECT * FROM tb_professor WHERE id_professor = ?;
+    """, (id, ))
+
+    data = cursor.fetchone()
+
+    if data is not None:
+
+        cursor.execute("""
+            UPDATE tb_professor
+            SET nome=?, fk_id_endereco
+            WHERE id_professor = ?;
+        """, (nome, id_endereco, id))
+        conn.commit()
+    else:
+        print("Inserindo")
+        # Inserir novo registro.
+        cursor.execute("""
+            INSERT INTO tb_professor(nome, fk_id_endereco)
+            VALUES(?, ?);
+        """, (nome))
+        conn.commit()
+        # Identificador do último registro inserido.
+        id = cursor.lastrowid
+        professor["id_professor"] = id
+
+    conn.close()
+
+    return jsonify(professor)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True, use_reloader=True)
