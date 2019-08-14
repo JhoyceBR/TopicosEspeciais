@@ -48,3 +48,43 @@
 2019-08-09 11:49:43,657 - INFO - Listanto disciplinas.
 2019-08-09 11:53:10,698 - INFO - Listanto disciplinas.
 2019-08-09 11:53:14,510 - INFO - Listanto disciplinas pelo id.
+2019-08-14 10:23:40,757 - INFO - Listando endereços por id: 1
+2019-08-14 10:25:03,764 - INFO - Listando endereços por id: 1
+2019-08-14 10:28:34,777 - INFO - Listanto turno pelo id: 1
+2019-08-14 10:28:54,268 - INFO - Listando turno.
+2019-08-14 10:28:54,269 - INFO - [{'id_turno': 1, 'nome': 'manha'}]
+2019-08-14 10:31:22,599 - INFO - Listanto escolas.
+2019-08-14 10:31:22,600 - INFO - []
+2019-08-14 10:32:30,419 - INFO - Cadastrando escola.
+2019-08-14 10:35:55,160 - INFO - Cadastrando escola.
+2019-08-14 10:36:13,789 - INFO - Listanto escolas.
+2019-08-14 10:36:13,790 - INFO - [{'id_escola': 1, 'nome': 'ifpb', 'id_fk_endereco': 1, 'id_fk_campus': 1}]
+2019-08-14 10:36:23,569 - INFO - Listanto escola pelo id: 1
+2019-08-14 10:39:20,429 - INFO - Listanto disciplinas.
+2019-08-14 10:39:24,506 - INFO - Listanto disciplina pelo id: 1.
+2019-08-14 10:46:42,756 - INFO - Listanto endereco.
+2019-08-14 10:46:42,757 - INFO - [{'id_endereco': 1, 'logradouro': 'rua projetada', 'complemento': 'primeiro andar', 'bairro': 'sao joao', 'cep': '58275000', 'numero': 1}]
+2019-08-14 10:46:48,843 - INFO - Listanto endereco pelo id: 1.
+2019-08-14 10:54:37,773 - INFO - Cadastrando professor.
+2019-08-14 10:55:03,353 - INFO - Listanto professores.
+2019-08-14 10:55:03,354 - INFO - [{'id_professor': 1, 'nome': 'jose barros', 'fk_id_endereco': 1}]
+2019-08-14 10:55:07,177 - INFO - Listanto professor pelo id: 1.
+2019-08-14 11:20:42,987 - INFO - Listanto alunos.
+2019-08-14 11:20:42,988 - INFO - [{'id_aluno': 1, 'nome': 'joana', 'matricula': '201713710045', 'cpf': '78899546211', 'nascimento': '2001/02/02', 'fk_id_endereco': 1, 'fk_id_curso': 1}]
+2019-08-14 11:25:54,768 - INFO - Cadastrando aluno.
+2019-08-14 11:26:00,912 - INFO - Listanto alunos.
+2019-08-14 11:26:00,913 - INFO - [{'id_aluno': 1, 'nome': 'joana', 'matricula': '201713710045', 'cpf': '78899546211', 'nascimento': '2001/02/02', 'fk_id_endereco': 1, 'fk_id_curso': 1}, {'id_aluno': 2, 'nome': 'luiz', 'matricula': '201711230045', 'cpf': '78898886211', 'nascimento': '2002/02/02', 'fk_id_endereco': 2, 'fk_id_curso': 2}]
+2019-08-14 11:26:32,320 - INFO - Listanto alunos.
+2019-08-14 11:26:32,320 - INFO - [{'id_aluno': 1, 'nome': 'joana', 'matricula': '201713710045', 'cpf': '78899546211', 'nascimento': '2001/02/02', 'fk_id_endereco': 1, 'fk_id_curso': 1}, {'id_aluno': 2, 'nome': 'luiza', 'matricula': '201123230045', 'cpf': '78898123411', 'nascimento': '2002/03/02', 'fk_id_endereco': 1, 'fk_id_curso': 2}]
+2019-08-14 11:27:40,757 - INFO - Listanto endereco.
+2019-08-14 11:27:40,758 - INFO - [{'id_endereco': 1, 'logradouro': 'rua projetada', 'complemento': 'primeiro andar', 'bairro': 'sao joao', 'cep': '58275000', 'numero': 1}]
+2019-08-14 11:29:42,346 - INFO - Listanto endereco.
+2019-08-14 11:29:42,347 - INFO - [{'id_endereco': 1, 'logradouro': 'colegio', 'complemento': 'segundo andar', 'bairro': 'sao joao 1', 'cep': '58125000', 'numero': 5}]
+2019-08-14 11:39:05,004 - INFO - Listanto cursos.
+2019-08-14 11:40:19,374 - INFO - Listanto cursos.
+2019-08-14 11:43:55,952 - INFO - Listando turno.
+2019-08-14 11:43:55,953 - INFO - [{'id_turno': 1, 'nome': 'manha'}]
+2019-08-14 11:48:12,736 - INFO - Listanto escolas.
+2019-08-14 11:48:12,736 - INFO - [{'id_escola': 1, 'nome': 'ifpb', 'id_fk_endereco': 1, 'id_fk_campus': 1}]
+2019-08-14 11:50:33,977 - INFO - Listanto escolas.
+2019-08-14 11:50:33,977 - INFO - [{'id_escola': 1, 'nome': 'ifpb', 'id_fk_endereco': 1, 'id_fk_campus': 1}]
