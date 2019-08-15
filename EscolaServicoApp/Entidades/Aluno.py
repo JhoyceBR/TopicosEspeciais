@@ -1,4 +1,3 @@
-# Classe Aluno
 class Aluno():
     def __init__(self, nome, matricula, cpf, nascimento, id_endereco, id_curso):
         self.nome = nome

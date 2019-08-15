@@ -176,26 +176,30 @@ def getAluno(id): # testado ok
 @app.route("/aluno", methods=['POST'])
 @schema.validate(aluno_schema)
 def setAlunos(): # testado ok
-    logger.info("Cadastrando aluno.")
-    aluno = request.get_json()
-    nome = aluno['nome']
-    matricula = aluno['matricula']
-    cpf = aluno['cpf']
-    nascimento = aluno['nascimento']
-    id_endereco = aluno['fk_id_endereco']
-    id_curso = aluno['fk_id_curso']
+    try:
+        logger.info("Cadastrando aluno.")
+        aluno = request.get_json()
+        nome = aluno['nome']
+        matricula = aluno['matricula']
+        cpf = aluno['cpf']
+        nascimento = aluno['nascimento']
+        id_endereco = aluno['fk_id_endereco']
+        id_curso = aluno['fk_id_curso']
 
-    conn = sqlite3.connect(Nome_DB)
-    cursor = conn.cursor()
-    cursor.execute("""
-        INSERT INTO tb_aluno(nome, matricula, cpf, nascimento, fk_id_endereco, fk_id_curso)
-        VALUES(?, ?, ?, ?, ?, ?);
-    """, (nome, matricula, cpf, nascimento, id_endereco, id_curso))
-    conn.commit()
-    conn.close()
+        conn = sqlite3.connect(Nome_DB)
+        cursor = conn.cursor()
+        cursor.execute("""
+            INSERT INTO tb_aluno(nome, matricula, cpf, nascimento, fk_id_endereco, fk_id_curso)
+            VALUES(?, ?, ?, ?, ?, ?);
+        """, (nome, matricula, cpf, nascimento, id_endereco, id_curso))
+        conn.commit()
+        conn.close()
 
-    id = cursor.lastrowid
-    aluno['id_aluno'] = id
+        id = cursor.lastrowid
+        aluno['id_aluno'] = id
+    except (sqlite3.Error, Exception) as e:
+        logger.error("Algum problema aconteceu.")
+        logger.error("Exceção: %s" % e)
 
     return (jsonify(aluno))
 
@@ -203,50 +207,53 @@ def setAlunos(): # testado ok
 @app.route("/aluno/<int:id>", methods=['PUT'])
 def updateAluno(id):
     # Receber o JSON.
-    aluno = request.get_json()
-    nome = aluno['nome']
-    matricula = aluno['matricula']
-    cpf = aluno['cpf']
-    nascimento = aluno['nascimento']
-    id_endereco = aluno['fk_id_endereco']
-    id_curso = aluno['fk_id_curso']
+    try:
+        aluno = request.get_json()
+        nome = aluno['nome']
+        matricula = aluno['matricula']
+        cpf = aluno['cpf']
+        nascimento = aluno['nascimento']
+        id_endereco = aluno['fk_id_endereco']
+        id_curso = aluno['fk_id_curso']
 
 
-    conn = sqlite3.connect(Nome_DB)
-    cursor = conn.cursor()
+        conn = sqlite3.connect(Nome_DB)
+        cursor = conn.cursor()
 
-    # Executar a consulta de pesquisa.​​
-    cursor.execute("""
-        SELECT * FROM tb_aluno WHERE id_aluno = ?;
-    """, (id, ))
-
-    data = cursor.fetchone()
-
-    if data is not None:
-
+        # Executar a consulta de pesquisa.​​
         cursor.execute("""
-            UPDATE tb_aluno
-            SET nome=?, matricula=?, cpf=?, nascimento=?, fk_id_endereco=?, fk_id_curso=?
-            WHERE id_aluno = ?;
-        """, (nome, matricula, cpf, nascimento, id_endereco, id_curso, id))
-        conn.commit()
-    else:
-        print("Inserindo")
-        # Inserir novo registro.
-        cursor.execute("""
-            INSERT INTO tb_aluno(nome, matricula, cpf, nascimento, fk_id_endereco, fk_id_curso)
-            VALUES(?, ?, ?, ?, ?, ?);
-        """, (nome, matricula, cpf, nascimento, id_endereco, id_curso))
-        conn.commit()
-        # Identificador do último registro inserido.
-        id = cursor.lastrowid
-        aluno["id_aluno"] = id
+            SELECT * FROM tb_aluno WHERE id_aluno = ?;
+        """, (id, ))
 
-    conn.close()
+        data = cursor.fetchone()
 
+        if data is not None:
+
+            cursor.execute("""
+                UPDATE tb_aluno
+                SET nome=?, matricula=?, cpf=?, nascimento=?, fk_id_endereco=?, fk_id_curso=?
+                WHERE id_aluno = ?;
+            """, (nome, matricula, cpf, nascimento, id_endereco, id_curso, id))
+            conn.commit()
+        else:
+            print("Inserindo")
+            # Inserir novo registro.
+            cursor.execute("""
+                INSERT INTO tb_aluno(nome, matricula, cpf, nascimento, fk_id_endereco, fk_id_curso)
+                VALUES(?, ?, ?, ?, ?, ?);
+            """, (nome, matricula, cpf, nascimento, id_endereco, id_curso))
+            conn.commit()
+            # Identificador do último registro inserido.
+            id = cursor.lastrowid
+            aluno["id_aluno"] = id
+    except (sqlite3.Error, Exception) as e:
+        logger.error("Algum problema aconteceu.")
+        logger.error("Exceção: %s" % e)
+    finally:
+        if conn:
+            conn.close()
 
     return jsonify(aluno)
-
 
 @app.route("/enderecos", methods=['GET'])
 def getEnderecos(): # testado ok
@@ -328,52 +335,58 @@ def setEndereco():
 
         id = cursor.lastrowid
         endereco['id_endereco'] = id
-    except sqlite3.Error:
-        return("Ocorreu um erro.")
+    except (sqlite3.Error, Exception) as e:
+        logger.error("Algum problema aconteceu.")
+        logger.error("Exceção: %s" % e)
 
     return jsonify(endereco)
 
 @app.route("/endereco/<int:id>", methods=['PUT'])
 def updateEndereco(id):
     # Receber o JSON.
-    endereco = request.get_json()
-    logradouro = endereco['logradouro']
-    complemento = endereco['complemento']
-    bairro = endereco['bairro']
-    cep = endereco['cep']
-    numero = endereco['numero']
+    try:
+        endereco = request.get_json()
+        logradouro = endereco['logradouro']
+        complemento = endereco['complemento']
+        bairro = endereco['bairro']
+        cep = endereco['cep']
+        numero = endereco['numero']
 
-    conn = sqlite3.connect(Nome_DB)
-    cursor = conn.cursor()
+        conn = sqlite3.connect(Nome_DB)
+        cursor = conn.cursor()
 
-    # Executar a consulta de pesquisa.​​
-    cursor.execute("""
-        SELECT * FROM tb_endereco WHERE id_endereco = ?;
-    """, (id, ))
-
-    data = cursor.fetchone()
-
-    if data is not None:
-
+        # Executar a consulta de pesquisa.​​
         cursor.execute("""
-            UPDATE tb_endereco
-            SET logradouro=?, complemento=?, bairro=?, cep=?, numero=?
-            WHERE id_endereco = ?;
-        """, (logradouro, complemento, bairro, cep, numero, id))
-        conn.commit()
-    else:
-        print("Inserindo")
-        # Inserir novo registro.
-        cursor.execute("""
-            INSERT INTO tb_endereco(logradouro, complemento, bairro, cep, numero)
-            VALUES(?, ?, ?, ?, ?);
-        """, (logradouro, complemento, bairro, cep, numero))
-        conn.commit()
-        # Identificador do último registro inserido.
-        id = cursor.lastrowid
-        endereco["id_endereco"] = id
+            SELECT * FROM tb_endereco WHERE id_endereco = ?;
+        """, (id, ))
 
-    conn.close()
+        data = cursor.fetchone()
+
+        if data is not None:
+
+            cursor.execute("""
+                UPDATE tb_endereco
+                SET logradouro=?, complemento=?, bairro=?, cep=?, numero=?
+                WHERE id_endereco = ?;
+            """, (logradouro, complemento, bairro, cep, numero, id))
+            conn.commit()
+        else:
+            print("Inserindo")
+            # Inserir novo registro.
+            cursor.execute("""
+                INSERT INTO tb_endereco(logradouro, complemento, bairro, cep, numero)
+                VALUES(?, ?, ?, ?, ?);
+            """, (logradouro, complemento, bairro, cep, numero))
+            conn.commit()
+            # Identificador do último registro inserido.
+            id = cursor.lastrowid
+            endereco["id_endereco"] = id
+    except (sqlite3.Error, Exception) as e:
+        logger.error("Algum problema aconteceu.")
+        logger.error("Exceção: %s" % e)
+    finally:
+        if conn:
+            conn.close()
 
 
     return jsonify(endereco)
@@ -454,51 +467,57 @@ def setCurso(): #testado ok
 
         id = cursor.lastrowid
         curso["id_curso"] = id
-    except sqlite3.Error:
-        return("Ocorreu um erro.")
+    except (sqlite3.Error, Exception) as e:
+        logger.error("Algum problema aconteceu.")
+        logger.error("Exceção: %s" % e)
 
     return(jsonify(curso))
 
 @app.route("/curso/<int:id>", methods=['PUT'])
 def updateCurso(id):
     # Receber o JSON.
-    curso = request.get_json()
-    nome = curso['nome']
-    turno = curso['turno']
-    id_turno = curso['fk_id_turno']
+    try:
+        curso = request.get_json()
+        nome = curso['nome']
+        turno = curso['turno']
+        id_turno = curso['fk_id_turno']
 
-    conn = sqlite3.connect(Nome_DB)
-    cursor = conn.cursor()
+        conn = sqlite3.connect(Nome_DB)
+        cursor = conn.cursor()
 
-    # Executar a consulta de pesquisa.​​
-    cursor.execute("""
-        SELECT * FROM tb_curso WHERE id_curso = ?;
-    """, (id, ))
-
-    data = cursor.fetchone()
-
-    if data is not None:
-
+        # Executar a consulta de pesquisa.​​
         cursor.execute("""
-            UPDATE tb_curso
-            SET nome=?, turno=?, fk_id_turno=?
-            WHERE id_curso = ?;
-        """, (nome, turno, id_turno, id))
-        conn.commit()
-    else:
-        print("Inserindo")
-        # Inserir novo registro.
-        cursor.execute("""
-            INSERT INTO tb_curso(nome, turno, fk_id_turno)
-            VALUES(?, ?, ?);
-        """, (nome, turno, id_turno))
-        conn.commit()
-        # Identificador do último registro inserido.
-        id = cursor.lastrowid
-        curso["id_curso"] = id
+            SELECT * FROM tb_curso WHERE id_curso = ?;
+        """, (id, ))
 
-    conn.close()
+        data = cursor.fetchone()
 
+        if data is not None:
+
+            cursor.execute("""
+                UPDATE tb_curso
+                SET nome=?, turno=?, fk_id_turno=?
+                WHERE id_curso = ?;
+            """, (nome, turno, id_turno, id))
+            conn.commit()
+        else:
+            print("Inserindo")
+            # Inserir novo registro.
+            cursor.execute("""
+                INSERT INTO tb_curso(nome, turno, fk_id_turno)
+                VALUES(?, ?, ?);
+            """, (nome, turno, id_turno))
+            conn.commit()
+            # Identificador do último registro inserido.
+            id = cursor.lastrowid
+            curso["id_curso"] = id
+
+    except (sqlite3.Error, Exception) as e:
+        logger.error("Algum problema aconteceu.")
+        logger.error("Exceção: %s" % e)
+    finally:
+        if conn:
+            conn.close()
 
     return jsonify(curso)
 
@@ -571,49 +590,55 @@ def setTurno():
 
         id = cursor.lastrowid
         turno["id_turno"] = id
-    except(sqlite3.Error):
-        logger.error("Ocorreu um erro.")
+    except (sqlite3.Error, Exception) as e:
+        logger.error("Algum problema aconteceu.")
+        logger.error("Exceção: %s" % e)
     return jsonify(turno)
 
 
 @app.route("/turno/<int:id>", methods=['PUT'])
 def updateTurno(id):
     # Receber o JSON.
-    turno = request.get_json()
-    nome = turno['nome']
+    try:
+        turno = request.get_json()
+        nome = turno['nome']
 
-    # Buscar o aluno pelo "id".
-    conn = sqlite3.connect(Nome_DB)
-    cursor = conn.cursor()
+        # Buscar o aluno pelo "id".
+        conn = sqlite3.connect(Nome_DB)
+        cursor = conn.cursor()
 
-    # Executar a consulta de pesquisa.​​
-    cursor.execute("""
-        SELECT * FROM tb_turno WHERE id_turno = ?;
-    """, (id, ))
-
-    data = cursor.fetchone()
-
-    if data is not None:
-        # Atualizar os dados caso o aluno seja encontrado através do "id".
+        # Executar a consulta de pesquisa.​​
         cursor.execute("""
-            UPDATE tb_turno
-            SET nome=?
-            WHERE id_turno = ?;
-        """, (nome, id))
-        conn.commit()
-    else:
-        print("Inserindo")
-        # Inserir novo registro.
-        cursor.execute("""
-            INSERT INTO tb_turno(nome)
-            VALUES(?);
-        """, (nome))
-        conn.commit()
-        # Identificador do último registro inserido.
-        id = cursor.lastrowid
-        turno["id_turno"] = id
+            SELECT * FROM tb_turno WHERE id_turno = ?;
+        """, (id, ))
 
-    conn.close()
+        data = cursor.fetchone()
+
+        if data is not None:
+            # Atualizar os dados caso o aluno seja encontrado através do "id".
+            cursor.execute("""
+                UPDATE tb_turno
+                SET nome=?
+                WHERE id_turno = ?;
+            """, (nome, id))
+            conn.commit()
+        else:
+            print("Inserindo")
+            # Inserir novo registro.
+            cursor.execute("""
+                INSERT INTO tb_turno(nome)
+                VALUES(?);
+            """, (nome))
+            conn.commit()
+            # Identificador do último registro inserido.
+            id = cursor.lastrowid
+            turno["id_turno"] = id
+    except (sqlite3.Error, Exception) as e:
+        logger.error("Algum problema aconteceu.")
+        logger.error("Exceção: %s" % e)
+    finally:
+        if conn:
+            conn.close()
 
     #Retornar o JSON do aluno atualizado.
     return jsonify(turno)
@@ -637,8 +662,8 @@ def getEscolas(): # testado ok
             escola = {
                 "id_escola":linha[0],
                 "nome":linha[1],
-                "id_fk_endereco": linha[2],
-                "id_fk_campus":linha[3]
+                "fk_id_endereco": linha[2],
+                "fk_id_campus":linha[3]
             }
             escolas.append(escola)
         logger.info(escolas)
@@ -678,66 +703,74 @@ def getEscola(id): # testado ok
 @app.route("/escola", methods=['POST'])
 @schema.validate(escola_schema)
 def setEscolas(): # testado ok
-    logger.info("Cadastrando escola.")
-    escola = request.get_json()
-    nome = escola['nome']
-    id_endereco = escola['fk_id_endereco']
-    id_campus = escola['fk_id_campus']
+    try:
+        logger.info("Cadastrando escola.")
+        escola = request.get_json()
+        nome = escola['nome']
+        id_endereco = escola['fk_id_endereco']
+        id_campus = escola['fk_id_campus']
 
-    conn = sqlite3.connect(Nome_DB)
-    cursor = conn.cursor()
-    cursor.execute("""
-        INSERT INTO tb_escola(nome, fk_id_endereco, fk_id_campus)
-        VALUES(?, ?, ?);
-    """, (nome, id_endereco, id_campus))
-    conn.commit()
-    conn.close()
+        conn = sqlite3.connect(Nome_DB)
+        cursor = conn.cursor()
+        cursor.execute("""
+            INSERT INTO tb_escola(nome, fk_id_endereco, fk_id_campus)
+            VALUES(?, ?, ?);
+        """, (nome, id_endereco, id_campus))
+        conn.commit()
+        conn.close()
 
-    id = cursor.lastrowid
-    escola['id_escola'] = id
-
+        id = cursor.lastrowid
+        escola['id_escola'] = id
+    except (sqlite3.Error, Exception) as e:
+        logger.error("Algum problema aconteceu.")
+        logger.error("Exceção: %s" % e)
     return (jsonify(escola))
 
 
 @app.route("/escola/<int:id>", methods=['PUT'])
 def updateEscola(id):
     # Receber o JSON.
-    escola = request.get_json()
-    nome = escola['nome']
-    id_endereco = escola['fk_id_endereco']
-    id_campus = escola['fk_id_campus']
+    try:
+        escola = request.get_json()
+        nome = escola['nome']
+        id_endereco = escola['fk_id_endereco']
+        id_campus = escola['fk_id_campus']
 
-    conn = sqlite3.connect(Nome_DB)
-    cursor = conn.cursor()
+        conn = sqlite3.connect(Nome_DB)
+        cursor = conn.cursor()
 
-    # Executar a consulta de pesquisa.​​
-    cursor.execute("""
-        SELECT * FROM tb_escola WHERE id_escola = ?;
-    """, (id, ))
-
-    data = cursor.fetchone()
-
-    if data is not None:
-
+        # Executar a consulta de pesquisa.​​
         cursor.execute("""
-            UPDATE tb_escola
-            SET nome=?, fk_id_endereco=?, fk_id_campus=?
-            WHERE id_escola = ?;
-        """, (nome, id_endereco, id_campus, id))
-        conn.commit()
-    else:
-        print("Inserindo")
-        # Inserir novo registro.
-        cursor.execute("""
-            INSERT INTO tb_escola(nome, fk_id_endereco, fk_id_campus)
-            VALUES(?, ?, ?);
-        """, (nome, id_endereco, id_campus))
-        conn.commit()
-        # Identificador do último registro inserido.
-        id = cursor.lastrowid
-        escola["id_escola"] = id
+            SELECT * FROM tb_escola WHERE id_escola = ?;
+        """, (id, ))
 
-    conn.close()
+        data = cursor.fetchone()
+
+        if data is not None:
+
+            cursor.execute("""
+                UPDATE tb_escola
+                SET nome=?, fk_id_endereco=?, fk_id_campus=?
+                WHERE id_escola = ?;
+            """, (nome, id_endereco, id_campus, id))
+            conn.commit()
+        else:
+            print("Inserindo")
+            # Inserir novo registro.
+            cursor.execute("""
+                INSERT INTO tb_escola(nome, fk_id_endereco, fk_id_campus)
+                VALUES(?, ?, ?);
+            """, (nome, id_endereco, id_campus))
+            conn.commit()
+            # Identificador do último registro inserido.
+            id = cursor.lastrowid
+            escola["id_escola"] = id
+    except (sqlite3.Error, Exception) as e:
+        logger.error("Algum problema aconteceu.")
+        logger.error("Exceção: %s" % e)
+    finally:
+        if conn:
+            conn.close()
 
     return jsonify(escola)
 
@@ -819,44 +852,48 @@ def setCampus(): # testado ok
 @app.route("/campus/<int:id>", methods=['PUT'])
 def updateCampus(id):
     # Receber o JSON.
-    campus = request.get_json()
-    sigla = campus['sigla']
-    cidade = campus['cidade']
+    try:
+        campus = request.get_json()
+        sigla = campus['sigla']
+        cidade = campus['cidade']
 
-    
-    conn = sqlite3.connect(Nome_DB)
-    cursor = conn.cursor()
 
-    # Executar a consulta de pesquisa.​​
-    cursor.execute("""
-        SELECT * FROM tb_campus WHERE id_campus = ?;
-    """, (id, ))
+        conn = sqlite3.connect(Nome_DB)
+        cursor = conn.cursor()
 
-    data = cursor.fetchone()
-
-    if data is not None:
-        
+        # Executar a consulta de pesquisa.​​
         cursor.execute("""
-            UPDATE tb_campus
-            SET sigla=?, cidade=?
-            WHERE id_campus = ?;
-        """, (sigla, cidade, id))
-        conn.commit()
-    else:
-        print("Inserindo")
-        # Inserir novo registro.
-        cursor.execute("""
-            INSERT INTO tb_campus(sigla, cidade)
-            VALUES(?);
-        """, (sigla, cidade))
-        conn.commit()
-        # Identificador do último registro inserido.
-        id = cursor.lastrowid
-        campus["id_campus"] = id
+            SELECT * FROM tb_campus WHERE id_campus = ?;
+        """, (id, ))
 
-    conn.close()
+        data = cursor.fetchone()
 
-    
+        if data is not None:
+
+            cursor.execute("""
+                UPDATE tb_campus
+                SET sigla=?, cidade=?
+                WHERE id_campus = ?;
+            """, (sigla, cidade, id))
+            conn.commit()
+        else:
+            print("Inserindo")
+            # Inserir novo registro.
+            cursor.execute("""
+                INSERT INTO tb_campus(sigla, cidade)
+                VALUES(?);
+            """, (sigla, cidade))
+            conn.commit()
+            # Identificador do último registro inserido.
+            id = cursor.lastrowid
+            campus["id_campus"] = id
+    except (sqlite3.Error, Exception) as e:
+        logger.error("Algum problema aconteceu.")
+        logger.error("Exceção: %s" % e)
+    finally:
+        if conn:
+            conn.close()
+
     return jsonify(campus)
 
 
@@ -930,49 +967,55 @@ def setTurma(): # testado ok
 
         id = cursor.lastrowid
         turma["id_turma"] = id
-    except(sqlite3.Error):
-        logger.error("Ocorreu um erro.")
+    except (sqlite3.Error, Exception) as e:
+        logger.error("Algum problema aconteceu.")
+        logger.error("Exceção: %s" % e)
     return jsonify(turma)
 
 @app.route("/turma/<int:id>", methods=['PUT'])
 def updateTurma(id):
     # Receber o JSON.
-    turma = request.get_json()
-    nome = turma['nome']
-    id_curso = turma['fk_id_curso']
+    try:
+        turma = request.get_json()
+        nome = turma['nome']
+        id_curso = turma['fk_id_curso']
 
-    conn = sqlite3.connect(Nome_DB)
-    cursor = conn.cursor()
+        conn = sqlite3.connect(Nome_DB)
+        cursor = conn.cursor()
 
-    # Executar a consulta de pesquisa.​​
-    cursor.execute("""
-        SELECT * FROM tb_turma WHERE id_turma = ?;
-    """, (id, ))
-
-    data = cursor.fetchone()
-
-    if data is not None:
-
+        # Executar a consulta de pesquisa.​​
         cursor.execute("""
-            UPDATE tb_turma
-            SET nome=?, fk_id_curso=?
-            WHERE id_turma = ?;
-        """, (nome, id_curso id))
-        conn.commit()
-    else:
-        print("Inserindo")
-        # Inserir novo registro.
-        cursor.execute("""
-            INSERT INTO tb_turma(nome, fk_id_curso)
-            VALUES(?, ?);
-        """, (nome, id_curso))
-        conn.commit()
-        # Identificador do último registro inserido.
-        id = cursor.lastrowid
-        turma["id_turma"] = id
+            SELECT * FROM tb_turma WHERE id_turma = ?;
+        """, (id, ))
 
-    conn.close()
-    
+        data = cursor.fetchone()
+
+        if data is not None:
+
+            cursor.execute("""
+                UPDATE tb_turma
+                SET nome=?, fk_id_curso=?
+                WHERE id_turma = ?;
+            """, (nome, id_curso, id))
+            conn.commit()
+        else:
+            print("Inserindo")
+            # Inserir novo registro.
+            cursor.execute("""
+                INSERT INTO tb_turma(nome, fk_id_curso)
+                VALUES(?, ?);
+            """, (nome, id_curso))
+            conn.commit()
+            # Identificador do último registro inserido.
+            id = cursor.lastrowid
+            turma["id_turma"] = id
+    except (sqlite3.Error, Exception) as e:
+        logger.error("Algum problema aconteceu.")
+        logger.error("Exceção: %s" % e)
+    finally:
+        if conn:
+            conn.close()
+
     return jsonify(turma)
 
 @app.route("/disciplinas", methods=["GET"])
@@ -1045,51 +1088,57 @@ def setDisciplina():
 
         id = cursor.lastrowid
         disciplina["id_disciplina"] = id
-    except(sqlite3.Error):
-        logger.error("Ocorreu um erro.")
+    except (sqlite3.Error, Exception) as e:
+        logger.error("Algum problema aconteceu.")
+        logger.error("Exceção: %s" % e)
     return jsonify(disciplina)
 
 @app.route("/disciplina/<int:id>", methods=['PUT'])
 def updateDisciplina(id):
     # Receber o JSON.
-    disciplina = request.get_json()
-    nome = disciplina['nome']
-    id_professor = disciplina['fk_id_professor']
+    try:
+        disciplina = request.get_json()
+        nome = disciplina['nome']
+        id_professor = disciplina['fk_id_professor']
 
-   
-    conn = sqlite3.connect(Nome_DB)
-    cursor = conn.cursor()
 
-    # Executar a consulta de pesquisa.​​
-    cursor.execute("""
-        SELECT * FROM tb_disciplina WHERE id_disciplina = ?;
-    """, (id, ))
+        conn = sqlite3.connect(Nome_DB)
+        cursor = conn.cursor()
 
-    data = cursor.fetchone()
-
-    if data is not None:
-        
+        # Executar a consulta de pesquisa.​​
         cursor.execute("""
-            UPDATE tb_disciplina
-            SET nome=?, fk_id_professor
-            WHERE id_disciplina = ?;
-        """, (nome, id_professor, id))
-        conn.commit()
-    else:
-        print("Inserindo")
-        # Inserir novo registro.
-        cursor.execute("""
-            INSERT INTO tb_disciplina(nome, fk_id_professor)
-            VALUES(?, ?);
-        """, (nome))
-        conn.commit()
-        # Identificador do último registro inserido.
-        id = cursor.lastrowid
-        disciplina["id_disciplina"] = id
+            SELECT * FROM tb_disciplina WHERE id_disciplina = ?;
+        """, (id, ))
 
-    conn.close()
+        data = cursor.fetchone()
 
-    
+        if data is not None:
+
+            cursor.execute("""
+                UPDATE tb_disciplina
+                SET nome=?, fk_id_professor=?
+                WHERE id_disciplina =?;
+            """, (nome, id_professor, id))
+            conn.commit()
+        else:
+            print("Inserindo")
+            # Inserir novo registro.
+            cursor.execute("""
+                INSERT INTO tb_disciplina(nome, fk_id_professor)
+                VALUES(?, ?);
+            """, (nome))
+            conn.commit()
+            # Identificador do último registro inserido.
+            id = cursor.lastrowid
+            disciplina["id_disciplina"] = id
+
+    except (sqlite3.Error, Exception) as e:
+        logger.error("Algum problema aconteceu.")
+        logger.error("Exceção: %s" % e)
+    finally:
+        if conn:
+            conn.close()
+
     return jsonify(disciplina)
 
 
@@ -1148,63 +1197,70 @@ def getProfessor(id): # testado ok
 @app.route("/professor", methods=['POST'])
 @schema.validate(professor_schema)
 def setProfessor(): # testado ok
-    logger.info("Cadastrando professor.")
-    professor = request.get_json()
-    nome = professor['nome']
-    id_endereco = professor['fk_id_endereco']
+    try:
+        logger.info("Cadastrando professor.")
+        professor = request.get_json()
+        nome = professor['nome']
+        id_endereco = professor['fk_id_endereco']
 
-    conn = sqlite3.connect(Nome_DB)
-    cursor = conn.cursor()
-    cursor.execute("""
-        INSERT INTO tb_professor(nome, fk_id_endereco)
-        VALUES(?, ?);
-    """, (nome,id_endereco))
-    conn.commit()
-    conn.close()
+        conn = sqlite3.connect(Nome_DB)
+        cursor = conn.cursor()
+        cursor.execute("""
+            INSERT INTO tb_professor(nome, fk_id_endereco)
+            VALUES(?, ?);
+        """, (nome,id_endereco))
+        conn.commit()
+        conn.close()
 
-    id = cursor.lastrowid
-    professor['id_professor'] = id
-
+        id = cursor.lastrowid
+        professor['id_professor'] = id
+    except (sqlite3.Error, Exception) as e:
+        logger.error("Algum problema aconteceu.")
+        logger.error("Exceção: %s" % e)
     return (jsonify(professor))
 
 @app.route("/professor/<int:id>", methods=['PUT'])
 def updateProfessor(id):
-    # Receber o JSON.
-    professor = request.get_json()
-    nome = professor['nome']
-    id_endereco = professor['fk_id_professor']
+    try:
+        professor = request.get_json()
+        nome = professor['nome']
+        id_endereco = professor['fk_id_endereco']
 
-    conn = sqlite3.connect(Nome_DB)
-    cursor = conn.cursor()
+        conn = sqlite3.connect(Nome_DB)
+        cursor = conn.cursor()
 
-    # Executar a consulta de pesquisa.​​
-    cursor.execute("""
-        SELECT * FROM tb_professor WHERE id_professor = ?;
-    """, (id, ))
-
-    data = cursor.fetchone()
-
-    if data is not None:
-
+        # Executar a consulta de pesquisa.​​
         cursor.execute("""
-            UPDATE tb_professor
-            SET nome=?, fk_id_endereco
-            WHERE id_professor = ?;
-        """, (nome, id_endereco, id))
-        conn.commit()
-    else:
-        print("Inserindo")
-        # Inserir novo registro.
-        cursor.execute("""
-            INSERT INTO tb_professor(nome, fk_id_endereco)
-            VALUES(?, ?);
-        """, (nome))
-        conn.commit()
-        # Identificador do último registro inserido.
-        id = cursor.lastrowid
-        professor["id_professor"] = id
+            SELECT * FROM tb_professor WHERE id_professor = ?;
+        """, (id, ))
 
-    conn.close()
+        data = cursor.fetchone()
+
+        if data is not None:
+
+            cursor.execute("""
+                UPDATE tb_professor
+                SET nome=?, fk_id_endereco=?
+                WHERE id_professor = ?;
+            """, (nome, id_endereco, id))
+            conn.commit()
+        else:
+            print("Inserindo")
+            # Inserir novo registro.
+            cursor.execute("""
+                INSERT INTO tb_professor(nome, fk_id_endereco)
+                VALUES(?, ?);
+            """, (nome, id_endereco))
+            conn.commit()
+            # Identificador do último registro inserido.
+            id = cursor.lastrowid
+            professor["id_professor"] = id
+    except (sqlite3.Error, Exception) as e:
+        logger.error("Algum problema aconteceu.")
+        logger.error("Exceção: %s" % e)
+    finally:
+        if conn:
+            conn.close()
 
     return jsonify(professor)
 

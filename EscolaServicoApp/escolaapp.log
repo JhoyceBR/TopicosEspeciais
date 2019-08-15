@@ -88,3 +88,86 @@
 2019-08-14 11:48:12,736 - INFO - [{'id_escola': 1, 'nome': 'ifpb', 'id_fk_endereco': 1, 'id_fk_campus': 1}]
 2019-08-14 11:50:33,977 - INFO - Listanto escolas.
 2019-08-14 11:50:33,977 - INFO - [{'id_escola': 1, 'nome': 'ifpb', 'id_fk_endereco': 1, 'id_fk_campus': 1}]
+2019-08-15 07:32:12,730 - INFO - Cadastrando aluno.
+2019-08-15 07:32:18,848 - INFO - Listanto alunos.
+2019-08-15 07:32:18,848 - INFO - [{'id_aluno': 1, 'nome': 'joana', 'matricula': '201713710045', 'cpf': '78899546211', 'nascimento': '2001/02/02', 'fk_id_endereco': 1, 'fk_id_curso': 1}, {'id_aluno': 2, 'nome': 'luiza', 'matricula': '201123230045', 'cpf': '78898123411', 'nascimento': '2002/03/02', 'fk_id_endereco': 1, 'fk_id_curso': 2}, {'id_aluno': 3, 'nome': 'ada', 'matricula': '216541780012', 'cpf': '99865512411', 'nascimento': '2001/03/06', 'fk_id_endereco': 2, 'fk_id_curso': 2}]
+2019-08-15 07:32:22,636 - INFO - Listanto aluno pelo id: 2.
+2019-08-15 07:34:31,496 - INFO - Cadastrando endereco.
+2019-08-15 07:34:38,660 - INFO - Listanto endereco.
+2019-08-15 07:34:38,660 - INFO - [{'id_endereco': 1, 'logradouro': 'colegio', 'complemento': 'segundo andar', 'bairro': 'sao joao 1', 'cep': '58125000', 'numero': 5}, {'id_endereco': 2, 'logradouro': 'rua do campo', 'complemento': 'apartamento', 'bairro': 'centro', 'cep': '58275000', 'numero': 66}]
+2019-08-15 07:34:42,989 - INFO - Listanto endereco pelo id: 1.
+2019-08-15 07:35:27,669 - INFO - Listanto cursos.
+2019-08-15 07:36:24,727 - INFO - Cadastrando curso.
+2019-08-15 07:36:24,728 - ERROR - Algum problema aconteceu.
+2019-08-15 07:36:24,728 - ERROR - Exceção: 'fk_id_turno'
+2019-08-15 07:36:29,864 - INFO - Listanto cursos.
+2019-08-15 07:36:33,713 - INFO - Listanto curso pelo id: 1
+2019-08-15 07:38:08,867 - INFO - Listando turno.
+2019-08-15 07:38:08,868 - INFO - [{'id_turno': 1, 'nome': 'tarde'}]
+2019-08-15 07:38:35,744 - INFO - Listando turno.
+2019-08-15 07:38:35,745 - INFO - [{'id_turno': 1, 'nome': 'tarde'}, {'id_turno': 2, 'nome': 'noite'}]
+2019-08-15 07:38:38,943 - INFO - Listanto turno pelo id: 2
+2019-08-15 07:39:08,218 - INFO - Listando turno.
+2019-08-15 07:39:08,218 - INFO - [{'id_turno': 1, 'nome': 'tarde'}, {'id_turno': 2, 'nome': 'tarde'}]
+2019-08-15 07:39:43,503 - INFO - Listanto escolas.
+2019-08-15 07:39:43,504 - INFO - [{'id_escola': 1, 'nome': 'ifpe', 'id_fk_endereco': 2, 'id_fk_campus': 2}]
+2019-08-15 07:40:58,299 - INFO - Listanto escolas.
+2019-08-15 07:40:58,300 - INFO - [{'id_escola': 1, 'nome': 'ifpe', 'fk_id_endereco': 2, 'fk_id_campus': 2}]
+2019-08-15 07:41:43,592 - INFO - Cadastrando escola.
+2019-08-15 07:41:48,862 - INFO - Listanto escolas.
+2019-08-15 07:41:48,863 - INFO - [{'id_escola': 1, 'nome': 'ifpe', 'fk_id_endereco': 2, 'fk_id_campus': 2}, {'id_escola': 2, 'nome': 'colegio adecita', 'fk_id_endereco': 2, 'fk_id_campus': 2}]
+2019-08-15 07:41:53,878 - INFO - Listanto escola pelo id: 2
+2019-08-15 07:42:45,985 - INFO - Listanto turmas.
+2019-08-15 07:43:49,991 - INFO - Listanto turmas.
+2019-08-15 07:44:16,319 - INFO - Listanto disciplinas.
+2019-08-15 07:45:15,183 - INFO - Listanto disciplinas.
+2019-08-15 07:46:18,233 - INFO - Listanto professores.
+2019-08-15 07:46:18,234 - INFO - [{'id_professor': 1, 'nome': 'jose barros', 'fk_id_endereco': 1}]
+2019-08-15 07:46:46,539 - INFO - Cadastrando professor.
+2019-08-15 07:46:52,205 - INFO - Listanto professores.
+2019-08-15 07:46:52,206 - INFO - [{'id_professor': 1, 'nome': 'jose barros', 'fk_id_endereco': 1}, {'id_professor': 2, 'nome': 'rhavy', 'fk_id_endereco': 2}]
+2019-08-15 07:49:03,254 - INFO - Listanto alunos.
+2019-08-15 07:49:03,255 - INFO - [{'id_aluno': 1, 'nome': 'joana', 'matricula': '201713710045', 'cpf': '78899546211', 'nascimento': '2001/02/02', 'fk_id_endereco': 1, 'fk_id_curso': 1}, {'id_aluno': 2, 'nome': 'luiza', 'matricula': '201123230045', 'cpf': '78898123411', 'nascimento': '2002/03/02', 'fk_id_endereco': 1, 'fk_id_curso': 2}, {'id_aluno': 3, 'nome': 'ada', 'matricula': '216541780012', 'cpf': '99865512411', 'nascimento': '2001/03/06', 'fk_id_endereco': 2, 'fk_id_curso': 2}]
+2019-08-15 07:51:55,315 - INFO - Listanto aluno pelo id: 3.
+2019-08-15 07:52:49,008 - INFO - Listanto endereco.
+2019-08-15 07:52:49,009 - INFO - [{'id_endereco': 1, 'logradouro': 'colegio', 'complemento': 'segundo andar', 'bairro': 'sao joao 1', 'cep': '58125000', 'numero': 5}, {'id_endereco': 2, 'logradouro': 'rua do campo', 'complemento': 'apartamento', 'bairro': 'centro', 'cep': '58275000', 'numero': 66}]
+2019-08-15 07:54:54,614 - INFO - Listanto endereco pelo id: 1.
+2019-08-15 07:56:07,373 - INFO - Listanto cursos.
+2019-08-15 07:56:51,520 - INFO - Cadastrando curso.
+2019-08-15 07:56:56,221 - INFO - Listanto cursos.
+2019-08-15 07:57:23,924 - INFO - Listanto cursos.
+2019-08-15 07:58:39,733 - INFO - Listando turno.
+2019-08-15 07:58:39,734 - INFO - [{'id_turno': 1, 'nome': 'tarde'}, {'id_turno': 2, 'nome': 'tarde'}]
+2019-08-15 07:59:16,093 - INFO - Listando turno.
+2019-08-15 07:59:16,093 - INFO - [{'id_turno': 1, 'nome': 'manha'}, {'id_turno': 2, 'nome': 'tarde'}]
+2019-08-15 07:59:47,790 - INFO - Listanto escolas.
+2019-08-15 07:59:47,791 - INFO - [{'id_escola': 1, 'nome': 'ifpe', 'fk_id_endereco': 2, 'fk_id_campus': 2}, {'id_escola': 2, 'nome': 'colegio adecita', 'fk_id_endereco': 2, 'fk_id_campus': 2}]
+2019-08-15 08:00:45,492 - INFO - Listanto escolas.
+2019-08-15 08:00:45,493 - INFO - [{'id_escola': 1, 'nome': 'ifpb', 'fk_id_endereco': 2, 'fk_id_campus': 1}, {'id_escola': 2, 'nome': 'colegio adecita', 'fk_id_endereco': 2, 'fk_id_campus': 2}]
+2019-08-15 08:01:20,856 - INFO - Listando campi.
+2019-08-15 08:01:20,857 - INFO - [{'id_campus': 1, 'sigla': 'ifpb', 'cidade': 'gba'}]
+2019-08-15 08:02:31,361 - INFO - Listando campi.
+2019-08-15 08:02:31,361 - INFO - [{'id_campus': 1, 'sigla': 'ifpb', 'cidade': 'gba'}, {'id_campus': 2, 'sigla': 'ifpb', 'cidade': 'jpa'}]
+2019-08-15 08:03:11,230 - INFO - Listanto turmas.
+2019-08-15 08:03:57,653 - INFO - Listanto turmas.
+2019-08-15 08:04:59,283 - INFO - Listanto disciplinas.
+2019-08-15 08:05:31,786 - ERROR - Algum problema aconteceu.
+2019-08-15 08:05:31,786 - ERROR - Exceção: near "WHERE": syntax error
+2019-08-15 08:05:36,174 - INFO - Listanto disciplinas.
+2019-08-15 08:06:27,592 - ERROR - Algum problema aconteceu.
+2019-08-15 08:06:27,592 - ERROR - Exceção: near "WHERE": syntax error
+2019-08-15 08:06:29,858 - ERROR - Algum problema aconteceu.
+2019-08-15 08:06:29,858 - ERROR - Exceção: near "WHERE": syntax error
+2019-08-15 08:06:42,353 - INFO - Listanto disciplina pelo id: 1.
+2019-08-15 08:08:46,969 - INFO - Listanto disciplina pelo id: 1.
+2019-08-15 08:09:30,539 - INFO - Listanto professores.
+2019-08-15 08:09:30,540 - INFO - [{'id_professor': 1, 'nome': 'jose barros', 'fk_id_endereco': 1}, {'id_professor': 2, 'nome': 'rhavy', 'fk_id_endereco': 2}]
+2019-08-15 08:09:56,564 - INFO - Cadastrando professor.
+2019-08-15 08:10:02,046 - INFO - Listanto professores.
+2019-08-15 08:10:02,046 - INFO - [{'id_professor': 1, 'nome': 'jose barros', 'fk_id_endereco': 1}, {'id_professor': 2, 'nome': 'rhavy', 'fk_id_endereco': 2}, {'id_professor': 3, 'nome': 'aps', 'fk_id_endereco': 3}]
+2019-08-15 08:10:28,549 - ERROR - Algum problema aconteceu.
+2019-08-15 08:10:28,549 - ERROR - Exceção: 'fk_id_professor'
+2019-08-15 08:12:31,817 - ERROR - Algum problema aconteceu.
+2019-08-15 08:12:31,818 - ERROR - Exceção: 'fk_id_professor'
+2019-08-15 08:14:02,253 - INFO - Listanto professores.
+2019-08-15 08:14:02,254 - INFO - [{'id_professor': 1, 'nome': 'jose barros', 'fk_id_endereco': 1}, {'id_professor': 2, 'nome': 'rhavy', 'fk_id_endereco': 2}, {'id_professor': 3, 'nome': 'erick', 'fk_id_endereco': 3}]

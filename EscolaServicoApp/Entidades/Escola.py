@@ -1,5 +1,5 @@
 class Escola():
-    def __init__(self, nome, logradouro, cidade):
+    def __init__(self, nome, id_endereco, id_campus):
         self.nome = nome
-        self.logradouro = logradouro
-        self.cidade = cidade
+        self.id_endereco = id_endereco
+        self.id_campus = id_campus
