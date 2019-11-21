@@ -171,3 +171,27 @@
 2019-08-15 08:12:31,818 - ERROR - Exceção: 'fk_id_professor'
 2019-08-15 08:14:02,253 - INFO - Listanto professores.
 2019-08-15 08:14:02,254 - INFO - [{'id_professor': 1, 'nome': 'jose barros', 'fk_id_endereco': 1}, {'id_professor': 2, 'nome': 'rhavy', 'fk_id_endereco': 2}, {'id_professor': 3, 'nome': 'erick', 'fk_id_endereco': 3}]
+2019-08-16 09:23:26,828 - INFO - Cadastrando escola.
+2019-08-16 09:23:26,858 - ERROR - Algum problema aconteceu.
+2019-08-16 09:23:26,860 - ERROR - Exceção: 'fk_id_campus'
+2019-08-16 09:23:31,337 - INFO - Listanto escolas.
+2019-08-16 09:23:31,352 - INFO - [{'id_escola': 1, 'nome': 'ifpb', 'fk_id_endereco': 2, 'fk_id_campus': 1}, {'id_escola': 2, 'nome': 'colegio adecita', 'fk_id_endereco': 2, 'fk_id_campus': 2}]
+2019-08-16 09:23:40,100 - INFO - Listanto escola pelo id: 1
+2019-08-16 09:23:45,572 - INFO - Listanto cursos.
+2019-08-16 09:24:28,128 - INFO - Listanto endereco.
+2019-08-16 09:24:28,129 - INFO - [{'id_endereco': 1, 'logradouro': 'caixa de agua', 'complemento': 'posto', 'bairro': 'são jose', 'cep': '58246000', 'numero': 65}, {'id_endereco': 2, 'logradouro': 'rua do campo', 'complemento': 'apartamento', 'bairro': 'centro', 'cep': '58275000', 'numero': 66}]
+2019-08-16 09:24:33,785 - INFO - Listanto professores.
+2019-08-16 09:24:33,785 - INFO - [{'id_professor': 1, 'nome': 'jose barros', 'fk_id_endereco': 1}, {'id_professor': 2, 'nome': 'rhavy', 'fk_id_endereco': 2}, {'id_professor': 3, 'nome': 'erick', 'fk_id_endereco': 3}]
+2019-08-16 09:24:39,861 - INFO - Listanto disciplinas.
+2019-08-16 09:24:45,556 - INFO - Listando campi.
+2019-08-16 09:24:45,556 - INFO - [{'id_campus': 1, 'sigla': 'ifpb', 'cidade': 'gba'}, {'id_campus': 2, 'sigla': 'ifpb', 'cidade': 'jpa'}]
+2019-08-16 09:24:50,887 - INFO - Listanto alunos.
+2019-08-16 09:24:50,887 - INFO - [{'id_aluno': 1, 'nome': 'joana', 'matricula': '201713710045', 'cpf': '78899546211', 'nascimento': '2001/02/02', 'fk_id_endereco': 1, 'fk_id_curso': 1}, {'id_aluno': 2, 'nome': 'luiza', 'matricula': '201123230045', 'cpf': '78898123411', 'nascimento': '2002/03/02', 'fk_id_endereco': 1, 'fk_id_curso': 2}, {'id_aluno': 3, 'nome': 'ada lovelace', 'matricula': '21654178022', 'cpf': '74488510422', 'nascimento': '2001/03/06', 'fk_id_endereco': 2, 'fk_id_curso': 2}]
+2019-08-16 09:24:57,065 - INFO - Listanto cursos.
+2019-08-16 09:25:03,161 - INFO - Listanto turmas.
+2019-08-16 09:25:15,295 - INFO - Listando turno.
+2019-08-16 09:25:15,296 - INFO - [{'id_turno': 1, 'nome': 'manha'}, {'id_turno': 2, 'nome': 'tarde'}]
+2019-08-19 09:30:43,933 - INFO - Listando turno.
+2019-08-19 09:30:43,965 - INFO - [{'id_turno': 1, 'nome': 'manha'}, {'id_turno': 2, 'nome': 'tarde'}]
+2019-11-01 09:26:25,955 - INFO - Listanto alunos.
+2019-11-01 09:26:25,967 - INFO - [{'id_aluno': 1, 'nome': 'joana', 'matricula': '201713710045', 'cpf': '78899546211', 'nascimento': '2001/02/02', 'fk_id_endereco': 1, 'fk_id_curso': 1}, {'id_aluno': 2, 'nome': 'luiza', 'matricula': '201123230045', 'cpf': '78898123411', 'nascimento': '2002/03/02', 'fk_id_endereco': 1, 'fk_id_curso': 2}, {'id_aluno': 3, 'nome': 'ada lovelace', 'matricula': '21654178022', 'cpf': '74488510422', 'nascimento': '2001/03/06', 'fk_id_endereco': 2, 'fk_id_curso': 2}]

@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import request
 from flask import jsonify
+from flask_cors import CORS
 from flask_json_schema import JsonSchema, JsonValidationError
 import logging # nativo
 import sqlite3 # nativo
@@ -23,14 +24,14 @@ schema = JsonSchema()
 schema.init_app(app)
 
 aluno_schema = {
-    'requered': ['nome','matricula','cpf', 'nascimento', 'fk_id_endereco', 'fk_id_curso'],
+    'requered': ['nome','matricula','cpf', 'nascimento', 'id_endereco', 'id_curso'],
     'properties': {
         'nome': {'type': 'string'},
         'matricula': {'type': 'string'},
         'cpf': {'type': 'string'},
         'nascimento': {'type': 'string'},
-        'fk_id_endereco': {'type': 'integer'},
-        'fk_id_curso': {'type': 'integer'}
+        'id_endereco': {'type': 'integer'},
+        'id_curso': {'type': 'integer'}
 
     }
 
@@ -49,11 +50,10 @@ endereco_schema = {
 }
 
 curso_schema = {
-    'requered': ['nome', 'fk_id_turno'],
+    'requered': ['nome', 'id_turno'],
     'properties': {
         'nome': {'type': 'string'},
-        'turno': {'type': 'string'},
-        'fk_id_turno': {'type': 'integer'}
+        'id_turno': {'type': 'integer'}
     }
 
 }
@@ -67,11 +67,11 @@ turno_schema = {
 }
 
 escola_schema = {
-    'requered': ['nome', 'fk_id_endereco', 'fk_id_campus'],
+    'requered': ['nome', 'id_endereco', 'id_campus'],
     'properties': {
         'nome': {'type': 'string'},
-        'fk_id_endereco': {'type': 'integer'},
-        'fk_id_campus': {'type': 'integer'}
+        'id_endereco': {'type': 'integer'},
+        'id_campus': {'type': 'integer'}
     }
 
 }
@@ -86,28 +86,28 @@ campus_schema = {
 }
 
 turma_schema = {
-    'requered': ['nome', 'fk_id_curso'],
+    'requered': ['nome', 'id_curso'],
     'properties': {
         'nome': {'type': 'string'},
-        'fk_id_curso': {'type': 'integer'}
+        'id_curso': {'type': 'integer'}
     }
 
 }
 
 disciplina_schema = {
-    'requered': ['nome', 'fk_id_professor'],
+    'requered': ['nome', 'id_professor'],
     'properties': {
         'nome': {'type': 'string'},
-        'fk_id_professor': {'type': 'integer'}
+        'id_professor': {'type': 'integer'}
     }
 
 }
 
 professor_schema = {
-    'requered': ['nome', 'fk_id_endereco'],
+    'requered': ['nome', 'id_endereco'],
     'properties': {
         'nome': {'type': 'string'},
-        'fk_id_endereco': {'type': 'integer'}
+        'id_endereco': {'type': 'integer'}
     }
 }
 
@@ -134,8 +134,8 @@ def getAlunos(): #testado ok
                 "matricula":linha[2],
                 "cpf":linha[3],
                 "nascimento":linha[4],
-                "fk_id_endereco": linha[5],
-                "fk_id_curso": linha[6]
+                "id_endereco": linha[5],
+                "id_curso": linha[6]
             }
             alunos.append(aluno)
         logger.info(alunos)
@@ -164,8 +164,8 @@ def getAluno(id): # testado ok
             "matricula":linha[2],
             "cpf":linha[3],
             "nascimento":linha[4],
-            "fk_id_endereco": linha[5],
-            "fk_id_curso": linha[6]
+            "id_endereco": linha[5],
+            "id_curso": linha[6]
         }
 
         conn.close()
@@ -183,8 +183,8 @@ def setAlunos(): # testado ok
         matricula = aluno['matricula']
         cpf = aluno['cpf']
         nascimento = aluno['nascimento']
-        id_endereco = aluno['fk_id_endereco']
-        id_curso = aluno['fk_id_curso']
+        id_endereco = aluno['id_endereco']
+        id_curso = aluno['id_curso']
 
         conn = sqlite3.connect(Nome_DB)
         cursor = conn.cursor()
@@ -213,8 +213,8 @@ def updateAluno(id):
         matricula = aluno['matricula']
         cpf = aluno['cpf']
         nascimento = aluno['nascimento']
-        id_endereco = aluno['fk_id_endereco']
-        id_curso = aluno['fk_id_curso']
+        id_endereco = aluno['id_endereco']
+        id_curso = aluno['id_curso']
 
 
         conn = sqlite3.connect(Nome_DB)
@@ -409,8 +409,7 @@ def getCursos(): #testado ok
             curso = {
                 "id_curso":linha[0],
                 "nome":linha[1],
-                "turno":linha[2],
-                "id_turno": linha[3]
+                "id_turno": linha[2]
             }
             cursos.append(curso)
 
@@ -437,8 +436,7 @@ def getCurso(id): #testado ok
         curso = {
             "id_curso":linha[0],
             "nome":linha[1],
-            "turno":linha[2],
-            "id_turno":linha[3] #aqui
+            "id_turno":linha[2] #aqui
         }
         conn.close()
     except(sqlite3.Error):
@@ -452,15 +450,14 @@ def setCurso(): #testado ok
     try:
         curso = request.get_json()
         nome = curso['nome']
-        turno = curso['turno'] #retirar turno do bd
-        id_turno = curso['fk_id_turno']
+        id_turno = curso['id_turno']
 
         conn = sqlite3.connect(Nome_DB)
         cursor = conn.cursor()
         cursor.execute("""
-            INSERT INTO tb_curso(nome, turno, fk_id_turno)
-            VALUES(?,?, ?);
-        """, (nome, turno, id_turno))
+            INSERT INTO tb_curso(nome, fk_id_turno)
+            VALUES(?, ?);
+        """, (nome, id_turno))
 
         conn.commit()
         conn.close()
@@ -479,8 +476,7 @@ def updateCurso(id):
     try:
         curso = request.get_json()
         nome = curso['nome']
-        turno = curso['turno']
-        id_turno = curso['fk_id_turno']
+        id_turno = curso['id_turno']
 
         conn = sqlite3.connect(Nome_DB)
         cursor = conn.cursor()
@@ -496,17 +492,17 @@ def updateCurso(id):
 
             cursor.execute("""
                 UPDATE tb_curso
-                SET nome=?, turno=?, fk_id_turno=?
+                SET nome=?, fk_id_turno=?
                 WHERE id_curso = ?;
-            """, (nome, turno, id_turno, id))
+            """, (nome, id_turno, id))
             conn.commit()
         else:
             print("Inserindo")
             # Inserir novo registro.
             cursor.execute("""
-                INSERT INTO tb_curso(nome, turno, fk_id_turno)
-                VALUES(?, ?, ?);
-            """, (nome, turno, id_turno))
+                INSERT INTO tb_curso(nome, fk_id_turno)
+                VALUES(?, ?);
+            """, (nome, id_turno))
             conn.commit()
             # Identificador do último registro inserido.
             id = cursor.lastrowid
@@ -662,8 +658,8 @@ def getEscolas(): # testado ok
             escola = {
                 "id_escola":linha[0],
                 "nome":linha[1],
-                "fk_id_endereco": linha[2],
-                "fk_id_campus":linha[3]
+                "id_endereco": linha[2],
+                "id_campus":linha[3]
             }
             escolas.append(escola)
         logger.info(escolas)
@@ -707,8 +703,8 @@ def setEscolas(): # testado ok
         logger.info("Cadastrando escola.")
         escola = request.get_json()
         nome = escola['nome']
-        id_endereco = escola['fk_id_endereco']
-        id_campus = escola['fk_id_campus']
+        id_endereco = escola['id_endereco']
+        id_campus = escola['id_campus']
 
         conn = sqlite3.connect(Nome_DB)
         cursor = conn.cursor()
@@ -733,8 +729,8 @@ def updateEscola(id):
     try:
         escola = request.get_json()
         nome = escola['nome']
-        id_endereco = escola['fk_id_endereco']
-        id_campus = escola['fk_id_campus']
+        id_endereco = escola['id_endereco']
+        id_campus = escola['id_campus']
 
         conn = sqlite3.connect(Nome_DB)
         cursor = conn.cursor()
@@ -954,7 +950,7 @@ def setTurma(): # testado ok
     try:
         turma = request.get_json()
         nome = turma['nome']
-        id_curso = turma['fk_id_curso']
+        id_curso = turma['id_curso']
 
         conn = sqlite3.connect(Nome_DB)
         cursor = conn.cursor()
@@ -978,7 +974,7 @@ def updateTurma(id):
     try:
         turma = request.get_json()
         nome = turma['nome']
-        id_curso = turma['fk_id_curso']
+        id_curso = turma['id_curso']
 
         conn = sqlite3.connect(Nome_DB)
         cursor = conn.cursor()
@@ -1061,7 +1057,7 @@ def getDisciplina(id): # testado ok
         disciplina = {
             "id_disciplina":linha[0],
             "nome":linha[1],
-            "fk_id_professor": linha[2]
+            "id_professor": linha[2]
         }
 
         conn.close()
@@ -1075,7 +1071,7 @@ def setDisciplina():
     try:
         disciplina = request.get_json()
         nome = disciplina['nome']
-        id_professor = disciplina['fk_id_professor']
+        id_professor = disciplina['id_professor']
 
         conn = sqlite3.connect(Nome_DB)
         cursor = conn.cursor()
@@ -1099,7 +1095,7 @@ def updateDisciplina(id):
     try:
         disciplina = request.get_json()
         nome = disciplina['nome']
-        id_professor = disciplina['fk_id_professor']
+        id_professor = disciplina['id_professor']
 
 
         conn = sqlite3.connect(Nome_DB)
@@ -1160,7 +1156,7 @@ def getProfessores(): # testado ok
             professor = {
                 "id_professor":linha[0],
                 "nome":linha[1],
-                "fk_id_endereco": linha[2]
+                "id_endereco": linha[2]
             }
             professores.append(professor)
         logger.info(professores)
@@ -1186,7 +1182,7 @@ def getProfessor(id): # testado ok
         professor = {
             "id_professor":linha[0],
             "nome":linha[1],
-            "fk_id_endereco": linha[2]
+            "id_endereco": linha[2]
         }
 
         conn.close()
@@ -1201,7 +1197,7 @@ def setProfessor(): # testado ok
         logger.info("Cadastrando professor.")
         professor = request.get_json()
         nome = professor['nome']
-        id_endereco = professor['fk_id_endereco']
+        id_endereco = professor['id_endereco']
 
         conn = sqlite3.connect(Nome_DB)
         cursor = conn.cursor()
@@ -1224,7 +1220,7 @@ def updateProfessor(id):
     try:
         professor = request.get_json()
         nome = professor['nome']
-        id_endereco = professor['fk_id_endereco']
+        id_endereco = professor['id_endereco']
 
         conn = sqlite3.connect(Nome_DB)
         cursor = conn.cursor()
@@ -1263,6 +1259,8 @@ def updateProfessor(id):
             conn.close()
 
     return jsonify(professor)
+
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True, use_reloader=True)
